@@ -51,21 +51,25 @@ int main(int argc, char *argv[]) {
 	
 	switch(option) {
 		case 1:
+            printf("Ingrese el numero: ");
             scanf("%d", &a);
 			positivo_negativo(a);
             break;
             ;
 		case 2:
+            printf("Ingrese el numero: ");
             scanf("%d", &a);
 			par_impar(a);
             break;
             ;
 		case 3:
+            printf("Ingrese el numero: ");
             scanf("%d", &a);
 			multiplo(a);
             break;
             ;
 		case 4:
+            printf("Ingrese los numeros: ");
             scanf("%d %d %d", &a, &b, &c);
 			mayor_menor(a,b,c);
             break;
