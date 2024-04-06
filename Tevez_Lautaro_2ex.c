@@ -60,7 +60,7 @@ void fourth_ex() {
     printf("Ingrese dos numeros: "); scanf("%d %d", &a, &b);
 
     for(int i = a; i <= b; i++) {
-        if(i%2 == 0) printf("_%d\n", i);
+        if(i%2 == 0) printf("- %d\n", i);
     }
 }
 
