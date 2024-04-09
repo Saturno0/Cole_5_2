@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void collatz(n) {
+void collatz(int n) {
   if(n==1) {
     printf("%d", n);
   } else if (n%2==0) {
