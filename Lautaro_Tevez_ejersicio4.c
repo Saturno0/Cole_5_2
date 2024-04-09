@@ -20,4 +20,5 @@ int main() {
   printf("ingrese un nunero: "); scanf("%d", &n);
 
   collatz(n);
+  return 0;
 }
