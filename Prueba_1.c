@@ -11,7 +11,7 @@ void primero() {
 	int precio, tamaño;
 	printf("Ingrese el tipo y el tamaño: "); scanf("%c %d", &tipo, &tamaño);
 
-    //compruebo que 
+    //compruebo que el tipo sea correcto y que el tamaño tambien
 	if (tipo == 'a' || tipo == 'A') {
 		if (tamaño == 1) precio = 200;
         else if (tamaño == 2) precio = 300;
