@@ -103,6 +103,47 @@ void quinto() {
     prinf("Su subsidio total es de $%d\nLo que equivale a $%d por hijo", subsidio, subsidio/hijos_escolares);
 }
 
+void Switch() {
+    int opcion;
+
+    //imprimo todas las opciones y despues pido que ingrese la opcion
+    printf("[+]Ejersicio 1\n[+]Ejersicio 2\n[+]Ejersicio 3\n[+]Ejersicio 4\n[+]Ejersicio 5\n[+]Salir");
+
+    prinf("[+]Ingrese una opcion: "); scanf("%d", &opcion);
+    
+    switch (opcion) {
+        case 1:
+            primero();
+            break;
+
+        case 2:
+            segundo();
+            break;
+
+        case 3:
+            tercero();
+            break;
+
+        case 4:
+            cuarto();
+            break;
+
+        case 5:
+            quinto();
+            break;
+        
+        case 6:
+            break;
+
+        default:
+            printf("Ingrese una opcion valida\n");
+            Switch();
+            break;
+    }
+}
+
 int main(int argc, char *argv[]) {
+    
+
 	return 0;
 }
