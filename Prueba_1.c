@@ -1,4 +1,3 @@
-hola.c
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -9,17 +8,28 @@ const pi = 3.14;
 
 void primero() {
 	char tipo;
-	int tamaño;
+	int precio, tamaño;
 	printf("Ingrese el tipo y el tamaño: "); scanf("%c %d", &tipo, &tamaño);
-	int precio;
+
+    //compruebo que 
 	if (tipo == 'a' || tipo == 'A') {
 		if (tamaño == 1) precio = 200;
-		if (tamaño == 2) precio = 300;
-	}
-	if (tipo == 'b' || tipo == 'B') {
+        else if (tamaño == 2) precio = 300;
+        else {
+            printf("Ingrese un tamaño valido\n");
+            primero();
+        }
+	} else if (tipo == 'b' || tipo == 'B') {
 		if (tamaño == 1) precio = 300;
-		if (tamaño == 2) precio = 500;
-	}
+		else if (tamaño == 2) precio = 500;
+        else {
+            printf("Ingrese un tamaño valido\n");
+            primero();
+        }
+	} else {
+        printf("Ingrese un tipo valido\n");
+        primero();
+    }
 
 	printf("El precio por kilo es de %d\n", precio);
 }
