@@ -1,3 +1,4 @@
+hola.c
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -79,7 +80,17 @@ void cuarto() {
 }
 
 void quinto() {
+    int cant_hijos;
+    printf("Ingrese la cantidad de hijos que tiene: "); scanf("%d", &cant_hijos);
 
+    //esta array guarda la edad de cada hijo
+    int edad_hijos[cant_hijos];
+
+    for (int i = 0; i < cant_hijos; i++) {
+        prinf("Ingrese la edad de su %d° hijo: "); scanf("%d", &edad_hijos[i]);
+    }
+
+    
 }
 
 int main(int argc, char *argv[]) {
