@@ -80,17 +80,27 @@ void cuarto() {
 }
 
 void quinto() {
-    int cant_hijos;
+    int cant_hijos, hijos_escolares, subsidio;
     printf("Ingrese la cantidad de hijos que tiene: "); scanf("%d", &cant_hijos);
 
     //esta array guarda la edad de cada hijo
     int edad_hijos[cant_hijos];
 
+    hijos_escolares = 0;
     for (int i = 0; i < cant_hijos; i++) {
         prinf("Ingrese la edad de su %d° hijo: "); scanf("%d", &edad_hijos[i]);
+
+        //este if comprueba la edad de cada hijo y va almazenando cuantos son escolares
+        if (edad_hijos[i] >= 6 && edad_hijos[i] <= 18) hijos_escolares ++;
+        
     }
 
+    if (hijos_escolares <= 2) subsidio = 700 * hijos_escolares;
+    else if (hijos_escolares <= 5 && hijos_escolares > 2) subsidio = 800 * hijos_escolares;
+    else if (hijos_escolares > 5) subsidio = 1200 * hijos_escolares;
     
+
+    prinf("Su subsidio total es de $%d\nLo que equivale a $%d por hijo", subsidio, subsidio/hijos_escolares);
 }
 
 int main(int argc, char *argv[]) {
