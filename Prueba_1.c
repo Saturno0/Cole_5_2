@@ -65,7 +65,7 @@ void tercero() { // tercer ejercicio
     // cálculo de longitud, area y volumen
     longitud = 2 * PI * r;
     area = PI * (r*r);
-    volumen = (4.0/3.0) * PI * (r*r*r); // Using 4.0 and 3.0 to ensure floating-point division
+    volumen = (4.0/3.0) * PI * (r*r*r);
 
     // salida de resultados
     printf("Longitud = %.2f\nArea = %.2f\nVolumen = %.2f\n", longitud, area, volumen);
