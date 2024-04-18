@@ -35,7 +35,7 @@ void juego(int pr, int pl, int tj, int partidas) {
 	}
 	
 	
-	cout << "[+]Sepa que la maquina ya decidio su movimiento";
+	cout << "[+]Sepa que la maquina ya decidio su movimiento" << endl;
 	cout << "[+]Ingrese que jugada quiere hacer(Piedra, Papel o Tijera): "; cin >> jugada_u;
 	
 	
