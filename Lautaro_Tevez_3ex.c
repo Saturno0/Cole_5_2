@@ -1,3 +1,5 @@
+// hay que usar -std=c99 antes de compliar
+
 #include <stdio.h>
 #include <stdlib.h>
 
