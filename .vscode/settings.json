@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "*.py": "python",
+        "vector": "cpp",
+        "iosfwd": "cpp",
+        "xstring": "cpp"
+    }
+}
