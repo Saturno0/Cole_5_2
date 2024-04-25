@@ -55,11 +55,15 @@ vector <int> leer_jugadas(string jugador_nombre) {
         if (contador == 1) {
             int i = 0;
             while (linea[i] != '\n') {
+<<<<<<< HEAD
                 if (linea[i] != ' ') {
                     string num(1, linea[i]);
                     int n = stoi(num);
                     jugadas.push_back(n);
                 }
+=======
+                if (linea[i] != ' ') jugadas.push_back(linea[i]);
+>>>>>>> 6cf9cc5e923ca4b91adb5a560e9372a9043c2eef
                 i++;
             }
         }
@@ -178,7 +182,12 @@ int main() {
 	cout << endl;
 	
     // Llamo a la funcion de juego()
+<<<<<<< HEAD
     juego(archivo, jugadas);
+=======
+    //juego(archivo, jugadas);
+>>>>>>> 6cf9cc5e923ca4b91adb5a560e9372a9043c2eef
 
     
 }
+
