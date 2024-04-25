@@ -3,11 +3,17 @@
 #include <string>
 #include <ctime>
 #include <fstream>
-#include <filesystem>
+#include <cstdlib>
 #include <map>
 
+
 using namespace std;
-using namespace filesystem;
+
+bool exists(string filename) {
+    ifstream file(filename);
+    return true;
+}
+
 
 // Variables globales - Piedra 0, Papel 1, Tijera 2
 vector<string> juegos = {"Piedra", "Papel", "Tijera"}; // Vector que incluye los juegos y su respectivo ID
@@ -39,6 +45,24 @@ void insertar_archivo (string nombre_archivo, vector <int> jugadas_u){
 }
 
 
+// Esta funcion lee las jugadas en caso de que el usuario ya exista
+vector <int> leer_jugadas(string jugador_nombre) {
+    ifstream archivo(jugador_nombre.append(".txt"));
+    vector <int> jugadas;
+    string linea;
+
+    for (int contador = 0; getline(archivo, linea); contador++) {
+        if (contador == 1) {
+            int i = 0;
+            while (linea[i] != '\n') {
+                if (linea[i] != ' ') jugadas.push_back(linea[i]);
+                i++;
+            }
+        }
+    }
+    archivo.close();
+    return jugadas;
+}
 
 int mas_usada(map<int, int> contador){
 	
@@ -107,9 +131,8 @@ void informe_puntos(int partidas, map<int, int> contador){
     cout << endl << "- Jugada mas utilizada: " << juegos[Jmas_usada];
 }
 
-void juego(string archivo){
+void juego(string archivo, vector<int> jugadas){
     map<int, int> contador {{0,0}, {1,0}, {2,0}}; // Diccionario que para almacenar la cantidad de veces que se utilizo una jugada
-    vector<int> jugadas; // Almacena todas las jugadas del usuario de manera no ordenada
     int partidas=0, juego_compu;
 	
 	while (true) {
@@ -135,16 +158,24 @@ void juego(string archivo){
 }
 
 int main() {
-	// Inicializo la semilla del generador de números aleatorios
+	// Inicializo la semilla del generador de n?meros aleatorios
     srand(time(0));
-    // Llamo a la funcion de juego()
-    string user_name, archivo;
+    string user_name, archivo; // variables que almacenan el nombre del usuario y el nombre del archivo .txt
+    vector<int> jugadas; // Almacena todas las jugadas del usuario de manera no ordenada
+
     cout << "[+]Ingrese su nombre de usuario: "; cin >> user_name;
+    cout << "\n\n";
     archivo = user_name.append(".txt");
 
-    if(!exists(archivo)) crear_archivo(user_name, archivo);
-
-    juego(archivo);
+    if(exists(archivo)) jugadas = leer_jugadas(user_name);
+    else                crear_archivo(user_name, archivo);
+	
+	for(int i = 0; i < jugadas.size(); i++) cout << jugadas[i] << " ";
+	cout << endl;
+	
+    // Llamo a la funcion de juego()
+    //juego(archivo, jugadas);
 
     
 }
+
