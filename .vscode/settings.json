@@ -3,6 +3,9 @@
         "*.py": "python",
         "vector": "cpp",
         "iosfwd": "cpp",
-        "xstring": "cpp"
+        "xstring": "cpp",
+        "map": "cpp",
+        "cstdlib": "cpp",
+        "ostream": "cpp"
     }
 }

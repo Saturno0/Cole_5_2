@@ -4,14 +4,19 @@
 #include <ctime>
 #include <fstream>
 #include <cstdlib>
+#include <cstdio>
 #include <map>
 
 
 using namespace std;
 
-bool exists(string filename) {
-    ifstream file(filename);
-    return true;
+bool exists(const string filename) {
+    FILE* file = fopen(filename.c_str(), "r");
+    if (file) {
+        fclose(file);
+        return true;
+    }
+    return false;
 }
 
 
@@ -20,14 +25,13 @@ vector<string> juegos = {"Piedra", "Papel", "Tijera"}; // Vector que incluye los
 int comparacion[2][3] = {{0, 1, 2}, {1, 2, 0}}; // Matriz la cual almacena, por ID (posicion de memoria del juego en el vector), un juego y su respectiva contra
 int usuario=0, compu=0;
 
+
 // Esta funcion contiene la creacion del archivo en caso de que no exista
-string crear_archivo (string user_name, string nombre_archivo){
+string crear_archivo (string nombre_archivo){
 
     // Abre el archivo y le escribe en la primera linea el nombre del usuario
     ofstream archivo(nombre_archivo);
-    archivo << user_name << endl;
     archivo.close();
-    
     return nombre_archivo;
 }
 
@@ -36,40 +40,35 @@ string crear_archivo (string user_name, string nombre_archivo){
 // Esta funcion contiene lo que serviria para guardar las jugadas
 void insertar_archivo (string nombre_archivo, vector <int> jugadas_u){
     // Abro el archivo y le escribo todas las jugadas
-    ofstream archivo(nombre_archivo);
+    ofstream archivo(nombre_archivo, ios::app);
     for (int jugada : jugadas_u) {
-        archivo << jugada << " ";
+        archivo << jugada << endl;
     }
-    archivo << endl;
     archivo.close();
 }
 
 
 // Esta funcion lee las jugadas en caso de que el usuario ya exista
-vector <int> leer_jugadas(string jugador_nombre) {
-    ifstream archivo(jugador_nombre.append(".txt"));
+vector <int> leer_jugadas(string file) {
+    ifstream archivo(file);
     vector <int> jugadas;
     string linea;
 
-    for (int contador = 0; getline(archivo, linea); contador++) {
-        if (contador == 1) {
-            int i = 0;
-            while (linea[i] != '\n') {
-                if (linea[i] != ' ') {
-                    string num(1, linea[i]);
-                    int n = stoi(num);
-                    jugadas.push_back(n);
-                }
-                i++;
-            }
+    if(archivo.is_open()) {
+        while (getline(archivo, linea)) {
+            int n = stoi(linea);
+            jugadas.push_back(n);
         }
+    } else {
+        //cout << "Error al abrir el archivo " << file << " porque no existe o no se puede abrir" <<endl;
+        crear_archivo(file);
     }
     archivo.close();
     return jugadas;
 }
 
+
 int mas_usada(map<int, int> contador){
-	
 	// Obtengo la jugada mas usada - Itero por cada par valor-clave en el diccionario contador
     int valorMax = 0, claveMax;
     for (const auto& par : contador) {
@@ -82,9 +81,10 @@ int mas_usada(map<int, int> contador){
     return claveMax;
 }
 
+
 int calcular_juego(int partidas, vector<int> jugadas){
 	int juego_compu;
-	if(partidas >= 3){
+	if(partidas >= 3 || jugadas.size() >= 1){
 		int cant_jugadas = jugadas.size(); // Almacena la cantidad de jugadas del usuario
 		int posicion_jugada = rand() % cant_jugadas; // Almacena una posicion de memoria aleatoria de una jugada de las que realizo el usuario 
 		int Jmas_probable = jugadas[posicion_jugada]; // Almacena la jugada correspondiente a la posicion de memoria random (las mas jugadas tienen mas chances de tocar)
@@ -96,6 +96,7 @@ int calcular_juego(int partidas, vector<int> jugadas){
 	
 	return juego_compu;
 }
+
 
 void comparaciones(int juego, int juego_compu){
 	// Realizo las comparaciones utilizando la matriz comparaciones y luego el diccionario juegos para mostrar los resultados
@@ -112,13 +113,14 @@ void comparaciones(int juego, int juego_compu){
 	}
 }
 
+
 int juego_usuario(){
 	float juego;
 	
     // El usuario tiene que ingresar una opcion hasta que esta sea correcta
     do{
     	// El usuario elige un juego por su ID y muestro en pantalla su respectivo juego
-        cout << endl << "[0] Piedra\n[1] Papel\n[2] Tijera\n[3] Salir" << endl << "[i] Elige: "; cin >> juego;
+        cout << endl << "[0] Piedra\n[1] Papel\n[2] Tijera\n[3] Salir\n[i] Elige: "; cin >> juego;
         // Compruebo que el juego ingresado no sea float, de serlo, se convierte a entero
         if (juego != static_cast<int>(juego)) juego=static_cast<int>(juego);
         	
@@ -127,6 +129,7 @@ int juego_usuario(){
 	return juego;
 }
 
+
 void informe_puntos(int partidas, map<int, int> contador){
     // Muestro la tabla informativa
     int Jmas_usada = mas_usada(contador);
@@ -134,6 +137,7 @@ void informe_puntos(int partidas, map<int, int> contador){
     cout << endl << "---- Puntajes ----" << endl << "- Usuario: " << usuario << endl << "- Compu: " << compu << endl << "- Partidas: " << partidas;
     cout << endl << "- Jugada mas utilizada: " << juegos[Jmas_usada];
 }
+
 
 void juego(string archivo, vector<int> jugadas){
     map<int, int> contador {{0,0}, {1,0}, {2,0}}; // Diccionario que para almacenar la cantidad de veces que se utilizo una jugada
@@ -161,6 +165,7 @@ void juego(string archivo, vector<int> jugadas){
     insertar_archivo(archivo, jugadas);
 }
 
+
 int main() {
 	// Inicializo la semilla del generador de n?meros aleatorios
     srand(time(0));
@@ -171,8 +176,8 @@ int main() {
     cout << "\n\n";
     archivo = user_name.append(".txt");
 
-    if(exists(archivo)) jugadas = leer_jugadas(user_name);
-    else                crear_archivo(user_name, archivo);
+    if(exists(archivo)) jugadas = leer_jugadas(archivo);
+    else                crear_archivo(archivo);
 	
 	for(int i = 0; i < jugadas.size(); i++) cout << jugadas[i] << " ";
 	cout << endl;
