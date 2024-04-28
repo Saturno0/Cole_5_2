@@ -10,7 +10,17 @@
 
 using namespace std;
 
-bool exists(const string filename) {
+
+bool borrar_archivo(string archivo) {
+    if (remove(archivo.c_str()) == 0) return true;
+    else {
+        cout << "A habido un error" << endl;
+        return false;
+    }
+}
+
+
+bool exists(string filename) {
     FILE* file = fopen(filename.c_str(), "r");
     if (file) {
         fclose(file);
@@ -28,8 +38,7 @@ int usuario=0, compu=0;
 
 // Esta funcion contiene la creacion del archivo en caso de que no exista
 string crear_archivo (string nombre_archivo){
-
-    // Abre el archivo y le escribe en la primera linea el nombre del usuario
+    // Abre el archivo lo cual lo crea y despues lo cierra
     ofstream archivo(nombre_archivo);
     archivo.close();
     return nombre_archivo;
@@ -39,7 +48,7 @@ string crear_archivo (string nombre_archivo){
 
 // Esta funcion contiene lo que serviria para guardar las jugadas
 void insertar_archivo (string nombre_archivo, vector <int> jugadas_u){
-    // Abro el archivo y le escribo todas las jugadas
+    // Abro el archivo y le escribo todas las jugadas siempre y cuando haya jugado mas de 3 veces
     ofstream archivo(nombre_archivo, ios::app);
     for (int jugada : jugadas_u) {
         archivo << jugada << endl;
@@ -64,6 +73,8 @@ vector <int> leer_jugadas(string file) {
         crear_archivo(file);
     }
     archivo.close();
+    borrar_archivo(file);
+    crear_archivo(file);
     return jugadas;
 }
 
@@ -82,9 +93,9 @@ int mas_usada(map<int, int> contador){
 }
 
 
-int calcular_juego(int partidas, vector<int> jugadas){
+int calcular_juego(vector<int> jugadas){
 	int juego_compu;
-	if(partidas >= 3 || jugadas.size() >= 1){
+	if(jugadas.size() >= 3){
 		int cant_jugadas = jugadas.size(); // Almacena la cantidad de jugadas del usuario
 		int posicion_jugada = rand() % cant_jugadas; // Almacena una posicion de memoria aleatoria de una jugada de las que realizo el usuario 
 		int Jmas_probable = jugadas[posicion_jugada]; // Almacena la jugada correspondiente a la posicion de memoria random (las mas jugadas tienen mas chances de tocar)
@@ -152,7 +163,7 @@ void juego(string archivo, vector<int> jugadas){
 		cout << endl << "[+] Juego del usuario: " << juegos[juego];
 		contador[juego] += 1; // Sumo al contador la cantidad de veces que el usuario eligio dicha opcion
         
-        juego_compu = calcular_juego(partidas, jugadas); // Generamos y almacenamos la jugada de la compu
+        juego_compu = calcular_juego(jugadas); // Generamos y almacenamos la jugada de la compu
         cout << endl << "[+] Juego de la compu: " << juegos[juego_compu] << endl; 
         
         comparaciones(juego, juego_compu); // Llamamos a la funcion comparaciones para definir un ganador
