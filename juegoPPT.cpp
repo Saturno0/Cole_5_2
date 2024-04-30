@@ -7,9 +7,7 @@
 #include <cstdio>
 #include <map>
 
-
 using namespace std;
-
 
 bool borrar_archivo(string archivo) {
     if (remove(archivo.c_str()) == 0) return true;
@@ -18,7 +16,6 @@ bool borrar_archivo(string archivo) {
         return false;
     }
 }
-
 
 bool exists(string filename) {
     FILE* file = fopen(filename.c_str(), "r");
@@ -29,12 +26,10 @@ bool exists(string filename) {
     return false;
 }
 
-
 // Variables globales - Piedra 0, Papel 1, Tijera 2
 vector<string> juegos = {"Piedra", "Papel", "Tijera"}; // Vector que incluye los juegos y su respectivo ID
 int comparacion[2][3] = {{0, 1, 2}, {1, 2, 0}}; // Matriz la cual almacena, por ID (posicion de memoria del juego en el vector), un juego y su respectiva contra
 int usuario=0, compu=0;
-
 
 // Esta funcion contiene la creacion del archivo en caso de que no exista
 string crear_archivo (string nombre_archivo){
@@ -44,10 +39,10 @@ string crear_archivo (string nombre_archivo){
     return nombre_archivo;
 }
 
-
-
 // Esta funcion contiene lo que serviria para guardar las jugadas
 void insertar_archivo (string nombre_archivo, vector <int> jugadas_u){
+    // Borramos el archivo
+    borrar_archivo(nombre_archivo);
     // Abro el archivo y le escribo todas las jugadas siempre y cuando haya jugado mas de 3 veces
     ofstream archivo(nombre_archivo, ios::app);
     for (int jugada : jugadas_u) {
@@ -55,7 +50,6 @@ void insertar_archivo (string nombre_archivo, vector <int> jugadas_u){
     }
     archivo.close();
 }
-
 
 // Esta funcion lee las jugadas en caso de que el usuario ya exista
 vector <int> leer_jugadas(string file) {
@@ -73,11 +67,8 @@ vector <int> leer_jugadas(string file) {
         crear_archivo(file);
     }
     archivo.close();
-    borrar_archivo(file);
-    crear_archivo(file);
     return jugadas;
 }
-
 
 int mas_usada(map<int, int> contador){
 	// Obtengo la jugada mas usada - Itero por cada par valor-clave en el diccionario contador
@@ -92,7 +83,6 @@ int mas_usada(map<int, int> contador){
     return claveMax;
 }
 
-
 int calcular_juego(vector<int> jugadas){
 	int juego_compu;
 	if(jugadas.size() >= 3){
@@ -104,10 +94,8 @@ int calcular_juego(vector<int> jugadas){
 	else{
 		juego_compu = rand() % 3;
 	}
-	
 	return juego_compu;
 }
-
 
 void comparaciones(int juego, int juego_compu){
 	// Realizo las comparaciones utilizando la matriz comparaciones y luego el diccionario juegos para mostrar los resultados
@@ -124,7 +112,6 @@ void comparaciones(int juego, int juego_compu){
 	}
 }
 
-
 int juego_usuario(){
 	float juego;
 	
@@ -140,15 +127,15 @@ int juego_usuario(){
 	return juego;
 }
 
-
 void informe_puntos(int partidas, map<int, int> contador){
     // Muestro la tabla informativa
     int Jmas_usada = mas_usada(contador);
+    int empates = partidas - compu - usuario;
     
-    cout << endl << "---- Puntajes ----" << endl << "- Usuario: " << usuario << endl << "- Compu: " << compu << endl << "- Partidas: " << partidas;
-    cout << endl << "- Jugada mas utilizada: " << juegos[Jmas_usada];
+    cout << endl << "---- Puntajes ----" << endl << "- Usuario: " << usuario << endl << "- Compu: " << compu << endl;
+    cout << "- Empates: " << empates << endl << "- Partidas: " << partidas;
+    if (partidas > 0) cout << endl << "- Jugada mas utilizada: " << juegos[Jmas_usada];
 }
-
 
 void juego(string archivo, vector<int> jugadas){
     map<int, int> contador {{0,0}, {1,0}, {2,0}}; // Diccionario que para almacenar la cantidad de veces que se utilizo una jugada
@@ -173,19 +160,25 @@ void juego(string archivo, vector<int> jugadas){
     }
 	// Informe final
 	informe_puntos(partidas, contador);
-    insertar_archivo(archivo, jugadas);
+    if (jugadas.size() > 0) insertar_archivo(archivo, jugadas);
 }
-
 
 int main() {
 	// Inicializo la semilla del generador de n?meros aleatorios
     srand(time(0));
-    string user_name, archivo; // variables que almacenan el nombre del usuario y el nombre del archivo .txt
+    string user_name, archivo, copy_user; // variables que almacenan el nombre del usuario y el nombre del archivo .txt
     vector<int> jugadas; // Almacena todas las jugadas del usuario de manera no ordenada
 
     cout << "[+]Ingrese su nombre de usuario: "; cin >> user_name;
     cout << "\n\n";
-    archivo = user_name.append(".txt");
+
+    // Convertir cada carácter a minúscula
+    for (char &c : user_name) {
+        c = tolower(c);
+        copy_user.push_back(c);
+    }
+
+    archivo = copy_user.append(".txt");
 
     if(exists(archivo)) jugadas = leer_jugadas(archivo);
     else                crear_archivo(archivo);
@@ -194,8 +187,6 @@ int main() {
 	cout << endl;
 	
     // Llamo a la funcion de juego()
-
     juego(archivo, jugadas);
     
 }
-
