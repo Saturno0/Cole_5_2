@@ -30,6 +30,7 @@ bool exists(string filename) {
 vector<string> juegos = {"Piedra", "Papel", "Tijera"}; // Vector que incluye los juegos y su respectivo ID
 int comparacion[2][3] = {{0, 1, 2}, {1, 2, 0}}; // Matriz la cual almacena, por ID (posicion de memoria del juego en el vector), un juego y su respectiva contra
 int usuario=0, compu=0;
+string arch_usuarios = "Usuarios.txt";
 
 // Esta funcion contiene la creacion del archivo en caso de que no exista
 string crear_archivo (string nombre_archivo){
@@ -40,7 +41,7 @@ string crear_archivo (string nombre_archivo){
 }
 
 // Esta funcion contiene lo que serviria para guardar las jugadas
-void insertar_archivo (string nombre_archivo, vector <int> jugadas_u){
+void insertar_jugada (string nombre_archivo, vector <int> jugadas_u){
     // Borramos el archivo
     borrar_archivo(nombre_archivo);
     // Abro el archivo y le escribo todas las jugadas siempre y cuando haya jugado mas de 3 veces
@@ -49,6 +50,26 @@ void insertar_archivo (string nombre_archivo, vector <int> jugadas_u){
         archivo << jugada << endl;
     }
     archivo.close();
+}
+
+void insertar_usuario (string nombre_archivo, string usuario){
+    // Abro el archivo y le escribo todas las jugadas siempre y cuando haya jugado mas de 3 veces
+    ofstream archivo(nombre_archivo, ios::app);
+    archivo << usuario << endl;
+    archivo.close();
+}
+
+void mostrar_usuarios(string arch){
+    if (exists(arch)){
+        cout << "-- Usuarios --" << endl;
+
+        ifstream archivo(arch);
+        string linea;
+        while (getline(archivo, linea)) {
+            cout << "    " << linea << endl;
+        }
+        cout << "---------------" << endl << endl;
+    }
 }
 
 // Esta funcion lee las jugadas en caso de que el usuario ya exista
@@ -160,7 +181,7 @@ void juego(string archivo, vector<int> jugadas){
     }
 	// Informe final
 	informe_puntos(partidas, contador);
-    if (jugadas.size() > 0) insertar_archivo(archivo, jugadas);
+    if (jugadas.size() > 0) insertar_jugada(archivo, jugadas);
 }
 
 int main() {
@@ -169,15 +190,18 @@ int main() {
     string user_name, archivo, copy_user; // variables que almacenan el nombre del usuario y el nombre del archivo .txt
     vector<int> jugadas; // Almacena todas las jugadas del usuario de manera no ordenada
 
+    mostrar_usuarios(arch_usuarios); // Mostramos todos los usuarios, si hay
+
     cout << "[+]Ingrese su nombre de usuario: "; cin >> user_name;
     cout << "\n\n";
 
-    // Convertir cada carácter a minúscula
+    // Convertir cada car?cter a min?scula
     for (char &c : user_name) {
         c = tolower(c);
         copy_user.push_back(c);
     }
 
+    insertar_usuario(arch_usuarios, copy_user);
     archivo = copy_user.append(".txt");
 
     if(exists(archivo)) jugadas = leer_jugadas(archivo);
