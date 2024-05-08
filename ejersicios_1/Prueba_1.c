@@ -3,25 +3,25 @@
 
 void primero() { // primer ejercicio
     char tipo; // tipo
-    int precio, tamaño; // precio y tamaño
-    printf("Ingrese el tipo y el tamaño: "); // solicitud de entrada
-    scanf(" %c %d", &tipo, &tamaño); // escaneo de entrada
+    int precio, tamano; // precio y tamano
+    printf("Ingrese el tipo y el tamano: "); // solicitud de entrada
+    scanf(" %c %d", &tipo, &tamano); // escaneo de entrada
 
-    // comprobación del tipo y tamaño
+    // comprobación del tipo y tamano
     if (tipo == 'a' || tipo == 'A') {
-        if (tamaño == 1) precio = 200;
-        else if (tamaño == 2) precio = 300;
+        if (tamano == 1) precio = 200;
+        else if (tamano == 2) precio = 300;
         else {
-            printf("Ingrese un tamaño valido\n");
-            primero(); // llamada recursiva si no es un tamaño válido
+            printf("Ingrese un tamano valido\n");
+            primero(); // llamada recursiva si no es un tamano válido
             return; // retorno
         }
     } else if (tipo == 'b' || tipo == 'B') {
-        if (tamaño == 1) precio = 300;
-        else if (tamaño == 2) precio = 500;
+        if (tamano == 1) precio = 300;
+        else if (tamano == 2) precio = 500;
         else {
-            printf("Ingrese un tamaño valido\n");
-            primero(); // llamada recursiva si no es un tamaño válido
+            printf("Ingrese un tamano valido\n");
+            primero(); // llamada recursiva si no es un tamano válido
             return; // retorno
         }
     } else {
@@ -75,12 +75,12 @@ void tercero() { // tercer ejercicio
 
 void cuarto() { // cuarto ejercicio
     char genero; // género
-    int edad, aportes; // edad y años de aporte
+    int edad, aportes; // edad y anos de aporte
 
-    printf("Ingrese su genero (h/m), su edad y sus años de aporte: "); // solicitud de entrada
+    printf("Ingrese su genero (h/m), su edad y sus anos de aporte: "); // solicitud de entrada
     scanf(" %c %d %d", &genero, &edad, &aportes); // escaneo de entrada
 
-    // comprobación de género, edad y años de aporte
+    // comprobación de género, edad y anos de aporte
     if ((genero == 'h' || genero == 'H') && edad >= 65 && aportes > 20) {
         printf("Puede jubilarse.\n");
     } else if ((genero == 'm' || genero == 'M') && edad >= 60 && aportes > 20) {
