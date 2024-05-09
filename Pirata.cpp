@@ -22,7 +22,7 @@ void dibujar_tablero(int tamano, vector<int> posicion, vector<int> tesoro, vecto
         cout << endl;
         for (int j = 0; j < tamano; j++) cout << "----";
         cout << "-" << endl;
-    }
+    } 
 
 }
 
@@ -44,7 +44,16 @@ vector<int> mover_bot(vector<int> jugador, vector<int>& bot) {
     return bot;
 }
 
-vector<int> juego(int nivel, vector<int>jugador, vector<int> tesoro) {
+bool comprobar(vector <int> jugador, vector <int> bot, vector <int> tesoro, int nivel) {
+    // Compruebo si el jugador toco el agua
+    if (jugador[0] == 0 || jugador [1] == 0 || jugador[0] == nivel || jugador[1] == nivel) return false;
+    // Compruebo si el jugador toco al bot
+    else if (jugador == bot) return false;
+
+    else                     return true;
+}
+
+void juego(int nivel, vector<int>jugador, vector<int> tesoro) {
     vector<int> bot = generar_posicion(nivel);
     char tecla;
 
@@ -58,15 +67,23 @@ vector<int> juego(int nivel, vector<int>jugador, vector<int> tesoro) {
         bot = mover_bot(jugador, bot); // Movimiento del bot
         system("cls");
         dibujar_tablero(nivel, jugador, tesoro, bot);
+        if (!comprobar(jugador, bot, tesoro, nivel)) {
+            cout << "[i] Que lastima!! has muerto" << endl;
+            break;
+        } else {
+            if (jugador == tesoro) {
+                cout << "[i] Felicidades has ganado!!" << endl;
+                break;
+            }
+        }
     }
 
-    return jugador;
 }
 
 int main(int argc, char** argv) {
     srand(time(0));
 
-    int nivel = 10;
+    int nivel = 5;
 
     vector<int> jugador = generar_posicion(nivel);
     vector<int> tesoro = generar_posicion(nivel);

@@ -6,6 +6,7 @@
         "xstring": "cpp",
         "map": "cpp",
         "cstdlib": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "iostream": "cpp"
     }
 }
