@@ -30,7 +30,7 @@ bool exists(string filename) {
 vector<string> juegos = {"Piedra", "Papel", "Tijera"}; // Vector que incluye los juegos y su respectivo ID
 int comparacion[2][3] = {{0, 1, 2}, {1, 2, 0}}; // Matriz la cual almacena, por ID (posicion de memoria del juego en el vector), un juego y su respectiva contra
 int usuario=0, compu=0;
-string arch_usuarios = "Usuarios.txt";
+string arch_usuarios = "Usuarios_PPT.txt";
 
 // Esta funcion contiene la creacion del archivo en caso de que no exista
 string crear_archivo (string nombre_archivo){
