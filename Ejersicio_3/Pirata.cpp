@@ -11,6 +11,7 @@
 
 using namespace std;
 string arch_usuarios = "Usuarios_Pirata.txt";
+string user_name;
 
 bool borrar_archivo(string archivo) {
     if (remove(archivo.c_str()) == 0) return true;
@@ -32,7 +33,7 @@ bool exists(string filename) {
 string crear_archivo (string nombre_archivo){
     // Abre el archivo lo cual lo crea y despues lo cierra
     nombre_archivo.append(".txt");
-    ofstream archivo(nombre_archivo.c_str());
+    ofstream archivo(nombre_archivo);
     archivo.close();
     return nombre_archivo;
 }
@@ -42,7 +43,7 @@ void insertar_nivel (string nombre_archivo, int nivel){
     // Borramos el archivo
     borrar_archivo(nombre_archivo);
     // Abro el archivo y le escribo todas las jugadas siempre y cuando haya jugado mas de 3 veces
-    ofstream archivo(nombre_archivo.c_str(), ios::app);
+    ofstream archivo(nombre_archivo, ios::app);
 
     archivo << nivel << endl;
 
@@ -51,7 +52,7 @@ void insertar_nivel (string nombre_archivo, int nivel){
 
 void insertar_usuario (string nombre_archivo, string usuario){
     // Abro el archivo y le escribo todas las jugadas siempre y cuando haya jugado mas de 3 veces
-    ofstream archivo(nombre_archivo.c_str(), ios::app);
+    ofstream archivo(nombre_archivo, ios::app);
     archivo << usuario << endl;
     archivo.close();
 }
@@ -60,7 +61,7 @@ void mostrar_usuarios(string arch){
     if (exists(arch)){
         cout << "-- Usuarios --" << endl;
 
-        ifstream archivo(arch.c_str());
+        ifstream archivo(arch);
         string linea;
         while (getline(archivo, linea)) {
             cout << "    " << linea << endl;
@@ -71,7 +72,7 @@ void mostrar_usuarios(string arch){
 
 // Esta funcion lee las jugadas en caso de que el usuario ya exista
 int leer_nivel(string file) {
-    ifstream archivo(file.c_str());
+    ifstream archivo(file);
     int nivel = 0;
     string linea;
 
@@ -145,9 +146,42 @@ vector<int> mover_jugador(char tecla, vector<int> jugador, int nivel){
 		return jugador;
 }
 
+void check (vector <int> bot,vector <int> jugador,vector <int> tesoro,char opcion, int nivel) {
+	switch (opcion) {
+    case 's':{
+    	cout << "Que bueno!!" << endl;
+        nivel +=1;
+        jugador = generar_posicion(nivel);
+        tesoro = generar_posicion(nivel);
+        bot = generar_posicion(nivel);
+
+        while (true) {
+            if (tesoro == jugador) tesoro = generar_posicion(nivel);
+            else if(bot == jugador) bot = generar_posicion(nivel);
+            else break;
+        }
+        
+        juego(nivel, jugador, tesoro, bot);
+    	
+		break;
+	}
+    
+    case 'n':{
+    	cout << "Que mal!! nt bro la proxima sera" << endl;
+    	string copy = user_name.append(".txt");
+    	insertar_nivel(copy, nivel);
+		break;
+	}
+
+    default:
+        break;
+    }
+}
+
+
 // Esta funcion corre todo el juego
 void juego(int nivel, vector<int>jugador, vector<int> tesoro, vector<int> bot) {
-    
+    char opcion;
     dibujar_tablero(nivel, jugador, tesoro, bot); // Dibujamos el mapa
 
     while (true) {
@@ -161,39 +195,22 @@ void juego(int nivel, vector<int>jugador, vector<int> tesoro, vector<int> bot) {
         
         // Comprobacion de ganar-perder
         if (!comprobar(jugador, bot, tesoro, nivel)) {
-            cout << "[i] Que lastima!! has muerto" << endl;
+            cout << "[i] Que lastima!! has muerto" << endl << "Quieres volver a jugar?"; cin >> opcion;
+    		opcion = tolower(opcion);
+            check(bot,jugador,tesoro,opcion,nivel);
             break;
         } else if (jugador == tesoro){
             cout << "[i] Felicidades has ganado!!" << endl;
+            if (nivel == 5) cout << "Has superado el primer nivel" << endl;
+    		else            cout << "Felicidades has llegado hasta el nivel " << nivel - 4 << "!!" << endl;
+    		cout << "\n\n\n\n" << "[i] Quieres jugar el siguiente nivel?(s/n): "; cin >> opcion;
+    		opcion = tolower(opcion);
+    		check(bot,jugador,tesoro,opcion,nivel);
             break;
         }
     }
-    char opcion;
-    if (nivel == 5) cout << "Felicidades!! has superado el primer nivel" << endl;
-    else            cout << "Felicidades has llegado hasta el nivel " << nivel - 4 << "!!" << endl;
-    // system("cls"); 
-    cout << "\n\n\n\n";
-    cout << "[i] Quieres jugar el siguiente nivel?(s/n): "; cin >> opcion;
-    opcion = tolower(opcion);
-    switch (opcion) {
-    case 's':
-        cout << "Que bueno!!" << endl;
-        nivel +=1;
-        jugador = generar_posicion(nivel);
-        tesoro = generar_posicion(nivel);
-        bot = generar_posicion(nivel);
-
-        while (true) {
-            if (tesoro == jugador) tesoro = generar_posicion(nivel);
-            else if(bot == jugador) bot = generar_posicion(nivel);
-            else break;
-        }
-        juego(nivel, jugador, tesoro, bot);
-        break;
     
-    default:
-        break;
-    }
+    
 }
 
 int main(int argc, char** argv) {
@@ -206,7 +223,7 @@ int main(int argc, char** argv) {
     vector<int> jugador = generar_posicion(nivel);
     vector<int> tesoro = generar_posicion(nivel);
     vector<int> bot = generar_posicion(nivel);
-    string user_name, copy_user, archivo;
+    string copy_user, archivo;
 
     if (exists(arch_usuarios)) mostrar_usuarios(arch_usuarios); // Mostramos todos los usuarios, si hay
 
