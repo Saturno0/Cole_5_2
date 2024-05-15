@@ -31,7 +31,8 @@ bool exists(string filename) {
 
 string crear_archivo (string nombre_archivo){
     // Abre el archivo lo cual lo crea y despues lo cierra
-    ofstream archivo(nombre_archivo);
+    nombre_archivo.append(".txt");
+    ofstream archivo(nombre_archivo.c_str());
     archivo.close();
     return nombre_archivo;
 }
@@ -41,7 +42,7 @@ void insertar_nivel (string nombre_archivo, int nivel){
     // Borramos el archivo
     borrar_archivo(nombre_archivo);
     // Abro el archivo y le escribo todas las jugadas siempre y cuando haya jugado mas de 3 veces
-    ofstream archivo(nombre_archivo, ios::app);
+    ofstream archivo(nombre_archivo.c_str(), ios::app);
 
     archivo << nivel << endl;
 
@@ -50,7 +51,7 @@ void insertar_nivel (string nombre_archivo, int nivel){
 
 void insertar_usuario (string nombre_archivo, string usuario){
     // Abro el archivo y le escribo todas las jugadas siempre y cuando haya jugado mas de 3 veces
-    ofstream archivo(nombre_archivo, ios::app);
+    ofstream archivo(nombre_archivo.c_str(), ios::app);
     archivo << usuario << endl;
     archivo.close();
 }
@@ -59,7 +60,7 @@ void mostrar_usuarios(string arch){
     if (exists(arch)){
         cout << "-- Usuarios --" << endl;
 
-        ifstream archivo(arch);
+        ifstream archivo(arch.c_str());
         string linea;
         while (getline(archivo, linea)) {
             cout << "    " << linea << endl;
@@ -70,13 +71,13 @@ void mostrar_usuarios(string arch){
 
 // Esta funcion lee las jugadas en caso de que el usuario ya exista
 int leer_nivel(string file) {
-    ifstream archivo(file);
-    int nivel;
+    ifstream archivo(file.c_str());
+    int nivel = 0;
     string linea;
 
     if(archivo.is_open()) {
         while (getline(archivo, linea)) {
-            int nivel = stoi(linea);
+        	nivel = stoi(linea);
         }
     } else {
         //cout << "Error al abrir el archivo " << file << " porque no existe o no se puede abrir" <<endl;
@@ -199,7 +200,7 @@ int main(int argc, char** argv) {
     srand(time(0));
     system("cls");
 
-    int nivel;
+    int nivel = 0;
 	
 	// Generamos las posiciones iniciales
     vector<int> jugador = generar_posicion(nivel);
@@ -219,10 +220,11 @@ int main(int argc, char** argv) {
     }
     user_name = copy_user;
     
-    archivo = copy_user.append(".txt");
+    archivo = copy_user;
 
     if(exists(archivo)) nivel = leer_nivel(archivo);
     else {
+        nivel = 5;
         crear_archivo(archivo);
         insertar_usuario(arch_usuarios,user_name);
     }
