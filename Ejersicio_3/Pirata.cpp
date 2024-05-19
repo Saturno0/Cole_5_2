@@ -8,254 +8,245 @@
 #include <string>
 #include <fstream>
 #include <cstdio>
+#include <algorithm>
 
 using namespace std;
-string arch_usuarios = "Usuarios_Pirata.txt";
-string user_name;
 
-bool borrar_archivo(string archivo) {
-    if (remove(archivo.c_str()) == 0) return true;
-    else {
-        cout << "A habido un error" << endl;
+class JuegoPirata {
+private:
+    string arch_usuarios = "Usuarios_Pirata.txt";
+    string user_name;
+    int nivel;
+    vector<int> jugador;
+    vector<int> tesoro;
+    vector<int> bot;
+    
+    string lower_case(string str) {
+    transform(str.begin(), str.end(), str.begin(), [](unsigned char c) { return tolower(c); });
+    return str;
+}
+
+    bool borrar_archivo(string archivo) {
+        if (remove(archivo.c_str()) == 0) return true;
+        else {
+            cout << "[!] Ha habido un error" << endl;
+            return false;
+        }
+    }
+
+    bool exists(string filename) {
+        FILE* file = fopen(filename.c_str(), "r");
+        if (file) {
+            fclose(file);
+            return true;
+        }
         return false;
     }
-}
 
-bool exists(string filename) {
-    FILE* file = fopen(filename.c_str(), "r");
-    if (file) {
-        fclose(file);
-        return true;
+    string crear_archivo(string nombre_archivo) {
+        ofstream archivo(nombre_archivo);
+        archivo.close();
+        return nombre_archivo;
     }
-    return false;
-}
 
-string crear_archivo (string nombre_archivo){
-    // Abre el archivo lo cual lo crea y despues lo cierra
-    nombre_archivo.append(".txt");
-    ofstream archivo(nombre_archivo);
-    archivo.close();
-    return nombre_archivo;
-}
+	void insertar_nivel(string nombre_archivo, int nivel) {
+    	ofstream archivo(nombre_archivo, ios::app);
+    	if (archivo.is_open()) {
+        	archivo << nivel << endl;
+        	archivo.close();
+    	} 
+		else {
+        	cout << "[!] Ha habido un error al abrir el archivo para escribir." << endl;
+    	}
+	}
 
-// Esta funcion contiene lo que serviria para guardar las jugadas
-void insertar_nivel (string nombre_archivo, int nivel){
-    // Borramos el archivo
-    borrar_archivo(nombre_archivo);
-    // Abro el archivo y le escribo todas las jugadas siempre y cuando haya jugado mas de 3 veces
-    ofstream archivo(nombre_archivo, ios::app);
+	void insertar_usuario(string nombre_archivo, string usuario) {
+	    if (exists(nombre_archivo)) {
+	        ifstream archivo(nombre_archivo);
+	        string linea;
+	        while (getline(archivo, linea)) {
+	            if (linea == usuario) {
+	                cout << "[!] El usuario ya existe." << endl;
+	                return;
+	            }
+	        }
+	    }
 
-    archivo << nivel << endl;
+	    ofstream archivo(nombre_archivo, ios::app);
+	    archivo << usuario << endl;
+	    archivo.close();
+	}
 
-    archivo.close();
-}
-
-void insertar_usuario (string nombre_archivo, string usuario){
-    // Abro el archivo y le escribo todas las jugadas siempre y cuando haya jugado mas de 3 veces
-    ofstream archivo(nombre_archivo, ios::app);
-    archivo << usuario << endl;
-    archivo.close();
-}
-
-void mostrar_usuarios(string arch){
-    if (exists(arch)){
-        cout << "-- Usuarios --" << endl;
-
-        ifstream archivo(arch);
+    int leer_nivel(string file) {
+        ifstream archivo(file);
+        int nivel = 0;
         string linea;
-        while (getline(archivo, linea)) {
-            cout << "    " << linea << endl;
+
+        if (archivo.is_open()) {
+            while (getline(archivo, linea)) {
+                nivel = stoi(linea);
+            }
+        } else {
+            crear_archivo(file);
         }
-        cout << "---------------" << endl << endl;
+        archivo.close();
+        return nivel;
     }
-}
 
-// Esta funcion lee las jugadas en caso de que el usuario ya exista
-int leer_nivel(string file) {
-    ifstream archivo(file);
-    int nivel = 0;
-    string linea;
+    void dibujar_tablero() {
+        system("cls");
+		cout << "----------------------------------------------------------" << endl;
+        cout << "| APB |" << " w: arriba - a: izquierda - s: abajo - d: derecha |" << endl;
+        cout << "----------------------------------------------------------" << endl << endl;
+        cout << "[+] Nivel: " << nivel-4 << endl << endl;
 
-    if(archivo.is_open()) {
-        while (getline(archivo, linea)) {
-        	nivel = stoi(linea);
+        for (int i = 0; i < nivel; i++) {
+            cout << "|";
+            for (int j = 0; j < nivel; j++) {
+                if (i == 0 && j + 1 == nivel || i + 1 == nivel && j == 0) cout << " # |";
+                else if (jugador[0] == i && jugador[1] == j) cout << " J |";
+                else if (tesoro[0] == i && tesoro[1] == j) cout << " X |";
+                else if (bot[0] == i && bot[1] == j && nivel > 8) cout << " B |";
+                else cout << "   |";
+            }
+            cout << endl;
+            for (int j = 0; j < nivel; j++) cout << "----";
+            cout << "-" << endl;
         }
-    } else {
-        //cout << "Error al abrir el archivo " << file << " porque no existe o no se puede abrir" <<endl;
-        crear_archivo(file);
     }
-    archivo.close();
-    return nivel;
-}
 
+    vector<int> generar_posicion(int nivel) {
+        int a = rand() % (nivel - 2) + 1, b = rand() % (nivel - 2) + 1;
+        return {a, b};
+    }
 
-// Funcion que genera el mapa, va recorriendo
-void dibujar_tablero(int tamano, vector<int> posicion, vector<int> tesoro, vector<int> bot) {
-	// i columna, j fila
-    for (int i = 0; i < tamano; i++) {
-        cout << "|";
-        for (int j = 0; j < tamano; j++) {
-            if (i == 0 && j + 1 == tamano || i + 1 == tamano && j == 0) cout << " # |";
-            else if (posicion[0] == i && posicion[1] == j) cout << " 1 |";
-            else if (tesoro[0] == i && tesoro[1] == j) cout << " X |";
-            else if (bot[0] == i && bot[1] == j) cout << " B |";
-            else cout << "   |";
+    vector<int> mover_bot(vector<int> jugador, vector<int>& bot) {
+        if (bot[0] > jugador[0]) bot[0] -= 1;
+        else if (bot[0] < jugador[0]) bot[0] += 1;
+        else if (bot[1] > jugador[1]) bot[1] -= 1;
+        else if (bot[1] < jugador[1]) bot[1] += 1;
+        return bot;
+    }
+
+    int comprobar() {
+        if (jugador[0] == 0 || jugador[1] == 0 || jugador[0] == nivel - 1 || jugador[1] == nivel - 1) return 0;
+        else if (jugador == bot) return 0;
+        else if (jugador == tesoro) return 1;
+        else return 2;
+    }
+
+    vector<int> mover_jugador(char tecla) {
+        if (tecla == 'w' && jugador[0] > 0) jugador[0]--;
+        else if (tecla == 's' && jugador[0] < nivel - 1) jugador[0]++;
+        else if (tecla == 'a' && jugador[1] > 0) jugador[1]--;
+        else if (tecla == 'd' && jugador[1] < nivel - 1) jugador[1]++;
+        return jugador;
+    }
+
+    void generar_posiciones() {
+        int r;
+        do {
+            tesoro = generar_posicion(nivel);
+            if (nivel > 8) bot = generar_posicion(nivel);
+            jugador = generar_posicion(nivel);
+            r = comprobar();
+        } while (r == 0 || jugador == tesoro);
+    }
+
+	void guardar_datos() {
+    	insertar_nivel(user_name, nivel);
+	}
+
+    void check(char opcion, bool result) {
+        if (opcion == 's' && result) {
+            nivel += 1;
+            juego();
+        } else if (opcion == 's' && !result) {
+            cout << "[+] Volviendo al nivel inicial..." << endl;
+            nivel = 5;
+            juego();
+        } else if (opcion == 'n') {
+            cout << "\n[+] Guardando los datos..." << endl;
+            guardar_datos();
+            exit(0);
         }
-        cout << endl;
-        for (int j = 0; j < tamano; j++) cout << "----";
-        cout << "-" << endl;
-    } 
+    }
 
-}
+    void juego() {
+        char opcion;
+        int result;
 
-// Funcion generica para generar una posicion aleatoria en el mapa (fuera del agua)
-vector<int> generar_posicion(int nivel) {
-    // a = columna, b = file;
-    int a = rand() % (nivel - 2) + 1, b = rand() % (nivel - 2) + 1;
-    vector<int> posicion;
-
-    posicion.push_back(a); posicion.push_back(b);
-    return posicion;
-}
-
-// Movimiento del bot para que intente acercarse al jugador todo el tiempo
-vector<int> mover_bot(vector<int> jugador, vector<int>& bot) {
-    if (bot[0] > jugador[0]) bot[0] -= 1;
-    else if (bot[0] < jugador[0]) bot[0] += 1;
-    else if (bot[1] > jugador[1]) bot[1] -= 1;
-    else if (bot[1] < jugador[1]) bot[1] += 1;
-
-    return bot;
-}
-
-// Comprobamos si el usuario toco el agua o al bot. Retorna true si vive o false si muere
-bool comprobar(vector <int> jugador, vector <int> bot, vector <int> tesoro, int nivel) {
-    // Compruebo si el jugador toco el agua
-    if (jugador[0] == 0 || jugador [1] == 0 || jugador[0] == nivel-1 || jugador[1] == nivel-1) return false;
-    // Compruebo si el jugador toco al bot
-    else if (jugador == bot) return false;
-    else return true;
-}
-
-// Esta funcion capta el movimiento del jugador y lo mueve en el tablero
-vector<int> mover_jugador(char tecla, vector<int> jugador, int nivel){
-	    if (tecla == 'w' && jugador[0] > 0) jugador[0]--;  // Arriba
-        else if (tecla == 's' && jugador[0] < nivel - 1) jugador[0]++;  // Abajo
-        else if (tecla == 'a' && jugador[1] > 0) jugador[1]--;  // Izquierda
-        else if (tecla == 'd' && jugador[1] < nivel - 1) jugador[1]++;  // Derecha
-		return jugador;
-}
-
-void check (vector <int> bot,vector <int> jugador,vector <int> tesoro,char opcion, int nivel) {
-	switch (opcion) {
-    case 's':{
-    	cout << "Que bueno!!" << endl;
-        nivel +=1;
-        jugador = generar_posicion(nivel);
-        tesoro = generar_posicion(nivel);
-        bot = generar_posicion(nivel);
+        generar_posiciones();
+        dibujar_tablero();
 
         while (true) {
-            if (tesoro == jugador) tesoro = generar_posicion(nivel);
-            else if(bot == jugador) bot = generar_posicion(nivel);
-            else break;
-        }
-        
-        juego(nivel, jugador, tesoro, bot);
-    	
-		break;
-	}
-    
-    case 'n':{
-    	cout << "Que mal!! nt bro la proxima sera" << endl;
-    	string copy = user_name.append(".txt");
-    	insertar_nivel(copy, nivel);
-		break;
-	}
+            char tecla = _getch();
+            jugador = mover_jugador(tecla);
+            if (nivel > 8) bot = mover_bot(jugador, bot);
 
-    default:
-        break;
-    }
-}
+            dibujar_tablero();
+            result = comprobar();
 
+            if (result != 2) {
+                if (result == 0) {
+                    cout << "[+] Que lastima! has muerto" << endl;
+                    nivel=5;
+                } else if (result == 1) {
+                    cout << "[+] Felicidades has ganado!" << endl;
+                    if (nivel == 5) cout << "[+] Has superado el primer nivel!" << endl;
+                    else cout << "[+] Felicidades, has llegado hasta el nivel " << nivel - 4 << "!" << endl;
+                }
 
-// Esta funcion corre todo el juego
-void juego(int nivel, vector<int>jugador, vector<int> tesoro, vector<int> bot) {
-    char opcion;
-    dibujar_tablero(nivel, jugador, tesoro, bot); // Dibujamos el mapa
-
-    while (true) {
-        char tecla = _getch(); // Capturamos las pulsaciones del teclado
-		jugador = mover_jugador(tecla, jugador, nivel); // Movimiento del jugador
-        bot = mover_bot(jugador, bot); // Movimiento del bot
-        
-        // Actualizacion de la pantalla
-        system("cls");
-        dibujar_tablero(nivel, jugador, tesoro, bot);
-        
-        // Comprobacion de ganar-perder
-        if (!comprobar(jugador, bot, tesoro, nivel)) {
-            cout << "[i] Que lastima!! has muerto" << endl << "Quieres volver a jugar?"; cin >> opcion;
-    		opcion = tolower(opcion);
-            check(bot,jugador,tesoro,opcion,nivel);
-            break;
-        } else if (jugador == tesoro){
-            cout << "[i] Felicidades has ganado!!" << endl;
-            if (nivel == 5) cout << "Has superado el primer nivel" << endl;
-    		else            cout << "Felicidades has llegado hasta el nivel " << nivel - 4 << "!!" << endl;
-    		cout << "\n\n\n\n" << "[i] Quieres jugar el siguiente nivel?(s/n): "; cin >> opcion;
-    		opcion = tolower(opcion);
-    		check(bot,jugador,tesoro,opcion,nivel);
-            break;
+                cout << "[i] Continuar? (s/n): "; cin >> opcion;
+                opcion = tolower(opcion);
+                check(opcion, result);
+            }
         }
     }
-    
-    
-}
 
-int main(int argc, char** argv) {
-    srand(time(0));
-    system("cls");
-
-    int nivel = 0;
-	
-	// Generamos las posiciones iniciales
-    vector<int> jugador = generar_posicion(nivel);
-    vector<int> tesoro = generar_posicion(nivel);
-    vector<int> bot = generar_posicion(nivel);
-    string copy_user, archivo;
-
-    if (exists(arch_usuarios)) mostrar_usuarios(arch_usuarios); // Mostramos todos los usuarios, si hay
-
-    cout << "[+]Ingrese su nombre de usuario: "; cin >> user_name;
-    cout << "\n\n";
-
-    // Convertir cada caracter a minuscula
-    for (char &c : user_name) {
-        c = tolower(c);
-        copy_user.push_back(c);
-    }
-    user_name = copy_user;
-    
-    archivo = copy_user;
-
-    if(exists(archivo)) nivel = leer_nivel(archivo);
-    else {
+public:
+    JuegoPirata(string user_name) : user_name(user_name) {
         nivel = 5;
-        crear_archivo(archivo);
-        insertar_usuario(arch_usuarios,user_name);
+        bot = {0, 0};
     }
 
-
-
-    // Comprobamos que el jugador no aparezca en el mismo lugar que el tesoro/bot
-    while (true) {
-        if (tesoro == jugador) tesoro = generar_posicion(nivel);
-        else if(bot == jugador) bot = generar_posicion(nivel);
-        else break;
+    void mostrar_usuarios() {
+        if (exists(arch_usuarios)) {
+            cout << "-- Usuarios --" << endl;
+            ifstream archivo(arch_usuarios);
+            string linea;
+            while (getline(archivo, linea)) {
+            	string nombre_usuario = linea.substr(0, linea.find(".txt"));
+                cout << "    " << nombre_usuario << endl;
+            }
+            cout << endl;
+        }
     }
 
-    juego(nivel, jugador, tesoro, bot); // Llamamos a la funcion core del juego
+	void iniciar(string usuario) {
+    	user_name = usuario + ".txt"; // Nombre correcto del archivo de usuario
+    	user_name = lower_case(user_name);
+    	insertar_usuario(arch_usuarios, user_name);
+
+    	nivel = leer_nivel(user_name);
+    	if (nivel == 0) {
+        	nivel = 5; // Nivel predeterminado si no hay datos almacenados
+    	}
+
+    	juego();
+	}
+};
+
+int main() {
+    srand(time(0));
+    string usuario;
+
+    JuegoPirata juego(usuario);
+    juego.mostrar_usuarios();
+
+    cout << "[i] Ingrese su nombre de usuario: ";
+    cin >> usuario;
+    juego.iniciar(usuario);
 
     return 0;
 }
