@@ -17,14 +17,14 @@ private:
     string arch_usuarios = "Usuarios_Pirata.txt";
     string user_name;
     int nivel;
-    vector<int> jugador;
-    vector<int> tesoro;
-    vector<int> bot;
+    vector<int> jugador, puente1 = {1, nivel-1}, puente2 = {nivel-1, 1}, tesoro, bot;
+
+
     
     string lower_case(string str) {
-    transform(str.begin(), str.end(), str.begin(), [](unsigned char c) { return tolower(c); });
-    return str;
-}
+        transform(str.begin(), str.end(), str.begin(), [](unsigned char c) { return tolower(c); });
+        return str;
+    }
 
     bool borrar_archivo(string archivo) {
         if (remove(archivo.c_str()) == 0) return true;
@@ -103,7 +103,7 @@ private:
         for (int i = 0; i < nivel; i++) {
             cout << "|";
             for (int j = 0; j < nivel; j++) {
-                if (i == 0 && j + 1 == nivel || i + 1 == nivel && j == 0) cout << " # |";
+                if (i == puente1[0] && j == puente1[1] || i == puente2[0] && j == puente2[1]) cout << " # |";
                 else if (jugador[0] == i && jugador[1] == j) cout << " J |";
                 else if (tesoro[0] == i && tesoro[1] == j) cout << " X |";
                 else if (bot[0] == i && bot[1] == j && nivel > 8) cout << " B |";
@@ -120,11 +120,16 @@ private:
         return {a, b};
     }
 
+    
+
     vector<int> mover_bot(vector<int> jugador, vector<int>& bot) {
         if (bot[0] > jugador[0]) bot[0] -= 1;
         else if (bot[0] < jugador[0]) bot[0] += 1;
         else if (bot[1] > jugador[1]) bot[1] -= 1;
         else if (bot[1] < jugador[1]) bot[1] += 1;
+        
+        if (bot == puente1) bot == puente2;
+        else if (bot == puente2) bot == puente1;
         return bot;
     }
 
@@ -140,6 +145,9 @@ private:
         else if (tecla == 's' && jugador[0] < nivel - 1) jugador[0]++;
         else if (tecla == 'a' && jugador[1] > 0) jugador[1]--;
         else if (tecla == 'd' && jugador[1] < nivel - 1) jugador[1]++;
+
+        if (jugador == puente1) jugador == puente2;
+        else if (jugador == puente2) jugador == puente1;
         return jugador;
     }
 
