@@ -1,6 +1,1 @@
 lautaro.txt
-l.txt
-a.txt
-f.txt
-s.txt
-k.txt
