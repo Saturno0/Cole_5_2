@@ -17,9 +17,12 @@ private:
     string arch_usuarios = "Usuarios_Pirata.txt";
     string user_name;
     int nivel;
-    vector<int> jugador, puente1 = {1, nivel-1}, puente2 = {nivel-1, 1}, tesoro, bot;
-
-
+    int turno;
+    vector<int> jugador;
+    vector<int> puente1;
+    vector<int> puente2;
+    vector<int> tesoro;
+    vector<int> bot;
     
     string lower_case(string str) {
         transform(str.begin(), str.end(), str.begin(), [](unsigned char c) { return tolower(c); });
@@ -49,33 +52,32 @@ private:
         return nombre_archivo;
     }
 
-	void insertar_nivel(string nombre_archivo, int nivel) {
-    	ofstream archivo(nombre_archivo, ios::app);
-    	if (archivo.is_open()) {
-        	archivo << nivel << endl;
-        	archivo.close();
-    	} 
-		else {
-        	cout << "[!] Ha habido un error al abrir el archivo para escribir." << endl;
-    	}
-	}
+    void insertar_nivel(string nombre_archivo, int nivel) {
+        ofstream archivo(nombre_archivo, ios::app);
+        if (archivo.is_open()) {
+            archivo << nivel << endl;
+            archivo.close();
+        } else {
+            cout << "[!] Ha habido un error al abrir el archivo para escribir." << endl;
+        }
+    }
 
-	void insertar_usuario(string nombre_archivo, string usuario) {
-	    if (exists(nombre_archivo)) {
-	        ifstream archivo(nombre_archivo);
-	        string linea;
-	        while (getline(archivo, linea)) {
-	            if (linea == usuario) {
-	                cout << "[!] El usuario ya existe." << endl;
-	                return;
-	            }
-	        }
-	    }
+    void insertar_usuario(string nombre_archivo, string usuario) {
+        if (exists(nombre_archivo)) {
+            ifstream archivo(nombre_archivo);
+            string linea;
+            while (getline(archivo, linea)) {
+                if (linea == usuario) {
+                    cout << "[!] El usuario ya existe." << endl;
+                    return;
+                }
+            }
+        }
 
-	    ofstream archivo(nombre_archivo, ios::app);
-	    archivo << usuario << endl;
-	    archivo.close();
-	}
+        ofstream archivo(nombre_archivo, ios::app);
+        archivo << usuario << endl;
+        archivo.close();
+    }
 
     int leer_nivel(string file) {
         ifstream archivo(file);
@@ -93,21 +95,49 @@ private:
         return nivel;
     }
 
+    void set_color(const string &color) {
+        cout << color;
+    }
+
+    void reset_color() {
+        cout << "\033[0m";
+    }
+
     void dibujar_tablero() {
         system("cls");
-		cout << "----------------------------------------------------------" << endl;
-        cout << "| APB |" << " w: arriba - a: izquierda - s: abajo - d: derecha |" << endl;
-        cout << "----------------------------------------------------------" << endl << endl;
+        cout << "---------------------------------------------------------------" << endl;
+          cout << "| APB |" << " w: arriba - a: izquierda - s: abajo - d: derecha - t: teletransporta |" << endl;
+        cout << "---------------------------------------------------------------" << endl << endl;
+        cout << "[+] Turno numero: " << turno << endl;
         cout << "[+] Nivel: " << nivel-4 << endl << endl;
 
         for (int i = 0; i < nivel; i++) {
             cout << "|";
             for (int j = 0; j < nivel; j++) {
-                if (i == puente1[0] && j == puente1[1] || i == puente2[0] && j == puente2[1]) cout << " # |";
-                else if (jugador[0] == i && jugador[1] == j) cout << " J |";
-                else if (tesoro[0] == i && tesoro[1] == j) cout << " X |";
-                else if (bot[0] == i && bot[1] == j && nivel > 8) cout << " B |";
-                else cout << "   |";
+                if (i == 0 || i + 1 == nivel || j == 0 || j + 1 == nivel) {
+                    set_color("\033[48;5;14m"); // Fondo celeste
+                    cout << "   ";
+                    reset_color();
+                } else if (i == puente1[0] && j == puente1[1] || i == puente2[0] && j == puente2[1]) {
+                        set_color("\033[48;5;94m\033[38;5;0m"); // Fondo marrón claro y texto negro para '#'
+                        cout << " # ";
+                        reset_color();
+                } else {
+                    if (jugador[0] == i && jugador[1] == j) {
+                        set_color("\033[38;5;226m"); // Amarillo para 'J'
+                        cout << " J ";
+                    } else if (tesoro[0] == i && tesoro[1] == j) {
+                        set_color("\033[38;5;214m"); // Naranja para 'X'
+                        cout << " X ";
+                    } else if (bot[0] == i && bot[1] == j && nivel > 8) {
+                        set_color("\033[38;5;196m"); // Rojo para 'B'
+                        cout << " B ";
+                    } else {
+                        cout << "   ";
+                    }
+                    reset_color();
+                }
+                cout << "|";
             }
             cout << endl;
             for (int j = 0; j < nivel; j++) cout << "----";
@@ -120,22 +150,18 @@ private:
         return {a, b};
     }
 
-    
-
     vector<int> mover_bot(vector<int> jugador, vector<int>& bot) {
         if (bot[0] > jugador[0]) bot[0] -= 1;
         else if (bot[0] < jugador[0]) bot[0] += 1;
         else if (bot[1] > jugador[1]) bot[1] -= 1;
         else if (bot[1] < jugador[1]) bot[1] += 1;
-        
-        if (bot == puente1) bot == puente2;
-        else if (bot == puente2) bot == puente1;
         return bot;
     }
 
     int comprobar() {
         if (jugador[0] == 0 || jugador[1] == 0 || jugador[0] == nivel - 1 || jugador[1] == nivel - 1) return 0;
         else if (jugador == bot) return 0;
+        else if (turno == 50) return 0;
         else if (jugador == tesoro) return 1;
         else return 2;
     }
@@ -145,9 +171,9 @@ private:
         else if (tecla == 's' && jugador[0] < nivel - 1) jugador[0]++;
         else if (tecla == 'a' && jugador[1] > 0) jugador[1]--;
         else if (tecla == 'd' && jugador[1] < nivel - 1) jugador[1]++;
+        else if (tecla == 't' && jugador == puente1) jugador == puente2;
+        else if (tecla == 't' && jugador == puente2) jugador == puente1;
 
-        if (jugador == puente1) jugador == puente2;
-        else if (jugador == puente2) jugador == puente1;
         return jugador;
     }
 
@@ -155,15 +181,23 @@ private:
         int r;
         do {
             tesoro = generar_posicion(nivel);
-            if (nivel > 8) bot = generar_posicion(nivel);
+            if (nivel > 8) {
+                bot = generar_posicion(nivel);
+                puente1 = {1, nivel-2};
+                puente2 = {nivel-2, 1};
+            } else {
+                puente1 = {0,nivel-1};
+                puente2 = {nivel-1,0};
+            }
             jugador = generar_posicion(nivel);
             r = comprobar();
         } while (r == 0 || jugador == tesoro);
+        
     }
 
-	void guardar_datos() {
-    	insertar_nivel(user_name, nivel);
-	}
+    void guardar_datos() {
+        insertar_nivel(user_name, nivel);
+    }
 
     void check(char opcion, bool result) {
         if (opcion == 's' && result) {
@@ -194,13 +228,14 @@ private:
 
             dibujar_tablero();
             result = comprobar();
-
             if (result != 2) {
                 if (result == 0) {
                     cout << "[+] Que lastima! has muerto" << endl;
-                    nivel=5;
+                    nivel = 5;
+                    turno=0;
                 } else if (result == 1) {
                     cout << "[+] Felicidades has ganado!" << endl;
+                    turno = 0;
                     if (nivel == 5) cout << "[+] Has superado el primer nivel!" << endl;
                     else cout << "[+] Felicidades, has llegado hasta el nivel " << nivel - 4 << "!" << endl;
                 }
@@ -209,6 +244,7 @@ private:
                 opcion = tolower(opcion);
                 check(opcion, result);
             }
+            else {turno += 1;}
         }
     }
 
@@ -224,25 +260,27 @@ public:
             ifstream archivo(arch_usuarios);
             string linea;
             while (getline(archivo, linea)) {
-            	string nombre_usuario = linea.substr(0, linea.find(".txt"));
+                string nombre_usuario = linea.substr(0, linea.find(".txt"));
                 cout << "    " << nombre_usuario << endl;
             }
             cout << endl;
         }
     }
 
-	void iniciar(string usuario) {
-    	user_name = usuario + ".txt"; // Nombre correcto del archivo de usuario
-    	user_name = lower_case(user_name);
-    	insertar_usuario(arch_usuarios, user_name);
+    void iniciar(string usuario) {
+        user_name = usuario + ".txt"; // Nombre correcto del archivo de usuario
+        user_name = lower_case(user_name);
+        insertar_usuario(arch_usuarios, user_name);
 
-    	nivel = leer_nivel(user_name);
-    	if (nivel == 0) {
-        	nivel = 5; // Nivel predeterminado si no hay datos almacenados
-    	}
+        nivel = leer_nivel(user_name);
+       
+        if (nivel == 0) {
+            turno = 0;
+            nivel = 5; // Nivel predeterminado si no hay datos almacenados
+        }
 
-    	juego();
-	}
+        juego();
+    }
 };
 
 int main() {
@@ -256,5 +294,4 @@ int main() {
     cin >> usuario;
     juego.iniciar(usuario);
 
-    return 0;
 }
