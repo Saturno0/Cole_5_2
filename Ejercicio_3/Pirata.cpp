@@ -12,9 +12,6 @@
 
 using namespace std;
 
-
-// queremos agregar mas bots a medida de que se va avanzando de nivel
-
 class JuegoPirata {
 private:
     string arch_usuarios = "Usuarios_Pirata.txt";
@@ -323,11 +320,15 @@ private:
     }
 
 public:
+
+    // Constructor de clase
     JuegoPirata(string user_name) : user_name(user_name) {
         nivel = 5;
         bot = {0, 0};
     }
 
+
+    // vamos seleccionando todos los nombre de usuario y los vamos mostrando en la pantalla
     void mostrar_usuarios() {
         if (exists(arch_usuarios)) {
 
@@ -335,7 +336,7 @@ public:
             ifstream archivo(arch_usuarios);
             string linea;
             while (getline(archivo, linea)) {
-                string nombre_usuario = linea.substr(0, linea.find(".txt"));
+                string nombre_usuario = linea.substr(0, linea.find(".txt")); // mostramos todo lo que no sea .txt
                 cout << "    " << nombre_usuario << endl;
             }
             cout << endl;
