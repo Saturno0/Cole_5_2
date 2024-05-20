@@ -122,9 +122,9 @@ private:
                 if (esBorde) {
                     set_color("\033[48;5;14m"); // Fondo celeste para bordes
                 } else if (esPuenteInterno) {
-                    set_color("\033[48;5;94m\033[38;5;0m"); // Fondo marrón para los puentes internos
+                    set_color("\033[48;5;94m\033[38;5;0m"); // Fondo marrÃ³n para los puentes internos
                 } else {
-                    set_color("\033[48;5;15m\033[38;5;0m"); // Fondo blanco para espacios vacíos
+                    set_color("\033[48;5;15m\033[38;5;0m"); // Fondo blanco para espacios vacÃ­os
                 }
 
                 if (jugador[0] == i && jugador[1] == j) {
@@ -167,7 +167,8 @@ private:
 
     int comprobar() {
         if (jugador[0] == 0 || jugador[1] == 0 || jugador[0] == nivel - 1 || jugador[1] == nivel - 1) return 0;
-        else if (jugador == bot) return 0;
+        else if (jugador == bot && jugador == tesoro) return 3;
+		else if (jugador == bot) return 0;
         else if (turno == limite) return 0;
         else if (jugador == tesoro) return 1;
         else return 2;
@@ -203,16 +204,19 @@ private:
         insertar_nivel(user_name, nivel);
     }
 
-    void check(char opcion, bool result) {
-        if (opcion == 's' && result) {
+    void check(char opcion, int result) {
+        if (opcion == 's' && result == 1) {
             nivel += 1;
-            if (nivel % 10 == 0) limite += 10; 
+            if (nivel % 10 == 0) limite += 15; 
             juego();
-        } else if (opcion == 's' && !result) {
+        } else if (opcion == 's' && result == 0) {
             cout << "[+] Volviendo al nivel inicial..." << endl;
             nivel = 5;
             juego();
-        } else if (opcion == 'n') {
+    	} else if (opcion == 's' && result == 3) {
+			cout << "[+] Reiniciando nivel..." << endl;
+			juego();
+        }else if (opcion == 'n') {
             cout << "\n[+] Guardando los datos..." << endl;
             guardar_datos();
             exit(0);
@@ -245,7 +249,10 @@ private:
                     turno = 0;
                     if (nivel == 5) cout << "[+] Has superado el primer nivel!" << endl;
                     else cout << "[+] Felicidades, has llegado hasta el nivel " << nivel - 4 << "!" << endl;
-                }
+                } else {
+                	cout << "[+] Casi! Pero empataste" << endl;
+                	turno = 0;
+				}
 
                 cout << "[i] Continuar? (s/n): "; cin >> opcion;
                 opcion = tolower(opcion);
