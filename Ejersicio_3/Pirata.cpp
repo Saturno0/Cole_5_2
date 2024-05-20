@@ -18,9 +18,8 @@ private:
     string user_name;
     int nivel;
     int turno;
+    int limite = 25;
     vector<int> jugador;
-    vector<int> puente1;
-    vector<int> puente2;
     vector<int> tesoro;
     vector<int> bot;
     
@@ -103,47 +102,54 @@ private:
         cout << "\033[0m";
     }
 
-    void dibujar_tablero() {
-        system("cls");
-        cout << "---------------------------------------------------------------" << endl;
-          cout << "| APB |" << " w: arriba - a: izquierda - s: abajo - d: derecha - t: teletransporta |" << endl;
-        cout << "---------------------------------------------------------------" << endl << endl;
-        cout << "[+] Turno numero: " << turno << endl;
-        cout << "[+] Nivel: " << nivel-4 << endl << endl;
+void dibujar_tablero() {
+    system("cls");
+    cout << "----------------------------------------------------------" << endl;
+    cout << "| APB |" << " w: arriba - a: izquierda - s: abajo - d: derecha |" << endl;
+    cout << "----------------------------------------------------------" << endl << endl;
+    cout << "[+] Turno numero: " << turno << "/" << limite << endl;
+    cout << "[+] Nivel: " << nivel - 4 << endl << endl;
 
-        for (int i = 0; i < nivel; i++) {
-            cout << "|";
-            for (int j = 0; j < nivel; j++) {
-                if (i == 0 || i + 1 == nivel || j == 0 || j + 1 == nivel) {
-                    set_color("\033[48;5;14m"); // Fondo celeste
-                    cout << "   ";
-                    reset_color();
-                } else if (i == puente1[0] && j == puente1[1] || i == puente2[0] && j == puente2[1]) {
-                        set_color("\033[48;5;94m\033[38;5;0m"); // Fondo marrón claro y texto negro para '#'
-                        cout << " # ";
-                        reset_color();
+    for (int i = 0; i < nivel; i++) {
+        for (int j = 0; j < nivel; j++) {
+            bool esBorde = (i == 0 || i == nivel - 1 || j == 0 || j == nivel - 1);
+            bool esPuenteInterno = (i == 1 && j == nivel - 2) || (i == nivel - 2 && j == 1);
+
+            if (esBorde) {
+                set_color("\033[48;5;14m"); // Fondo celeste para bordes
+            } else if (esPuenteInterno) {
+                set_color("\033[48;5;94m\033[38;5;0m"); // Fondo marrón para los puentes internos
+            } else {
+                if (jugador[0] == i && jugador[1] == j) {
+                    set_color("\033[48;5;0m\033[38;5;226m"); // Fondo negro
+                } else if (tesoro[0] == i && tesoro[1] == j) {
+                    set_color("\033[48;5;15m\033[38;5;0m"); // Fondo blanco para el tesoro
+                } else if (bot[0] == i && bot[1] == j && nivel > 8) {
+                    set_color("\033[48;5;5m\033[38;5;0m"); // Fondo violeta para el bot
                 } else {
-                    if (jugador[0] == i && jugador[1] == j) {
-                        set_color("\033[38;5;226m"); // Amarillo para 'J'
-                        cout << " J ";
-                    } else if (tesoro[0] == i && tesoro[1] == j) {
-                        set_color("\033[38;5;214m"); // Naranja para 'X'
-                        cout << " X ";
-                    } else if (bot[0] == i && bot[1] == j && nivel > 8) {
-                        set_color("\033[38;5;196m"); // Rojo para 'B'
-                        cout << " B ";
-                    } else {
-                        cout << "   ";
-                    }
-                    reset_color();
+                    set_color("\033[48;5;15m\033[38;5;0m"); // Fondo blanco para espacios vacíos
                 }
-                cout << "|";
             }
-            cout << endl;
-            for (int j = 0; j < nivel; j++) cout << "----";
-            cout << "-" << endl;
+
+            if (jugador[0] == i && jugador[1] == j) {
+                cout << " J ";   
+            } else if (tesoro[0] == i && tesoro[1] == j) {
+                set_color("\033[38;5;196m"); // Naranja para 'X'
+                cout << " X ";
+            } else if (bot[0] == i && bot[1] == j && nivel > 8) {
+                set_color("\033[38;5;0m"); // Rojo para 'B'
+                cout << " B ";
+            } else {
+                cout << "   ";
+            }
+            reset_color();
         }
+        cout << endl;
     }
+}
+
+
+
 
     vector<int> generar_posicion(int nivel) {
         int a = rand() % (nivel - 2) + 1, b = rand() % (nivel - 2) + 1;
@@ -161,7 +167,7 @@ private:
     int comprobar() {
         if (jugador[0] == 0 || jugador[1] == 0 || jugador[0] == nivel - 1 || jugador[1] == nivel - 1) return 0;
         else if (jugador == bot) return 0;
-        else if (turno == 50) return 0;
+        else if (turno == limite) return 0;
         else if (jugador == tesoro) return 1;
         else return 2;
     }
@@ -171,9 +177,6 @@ private:
         else if (tecla == 's' && jugador[0] < nivel - 1) jugador[0]++;
         else if (tecla == 'a' && jugador[1] > 0) jugador[1]--;
         else if (tecla == 'd' && jugador[1] < nivel - 1) jugador[1]++;
-        else if (tecla == 't' && jugador == puente1) jugador == puente2;
-        else if (tecla == 't' && jugador == puente2) jugador == puente1;
-
         return jugador;
     }
 
@@ -181,18 +184,10 @@ private:
         int r;
         do {
             tesoro = generar_posicion(nivel);
-            if (nivel > 8) {
-                bot = generar_posicion(nivel);
-                puente1 = {1, nivel-2};
-                puente2 = {nivel-2, 1};
-            } else {
-                puente1 = {0,nivel-1};
-                puente2 = {nivel-1,0};
-            }
+            if (nivel > 8) bot = generar_posicion(nivel);
             jugador = generar_posicion(nivel);
             r = comprobar();
         } while (r == 0 || jugador == tesoro);
-        
     }
 
     void guardar_datos() {
@@ -202,6 +197,7 @@ private:
     void check(char opcion, bool result) {
         if (opcion == 's' && result) {
             nivel += 1;
+            if (nivel % 10 == 0) limite +=10; 
             juego();
         } else if (opcion == 's' && !result) {
             cout << "[+] Volviendo al nivel inicial..." << endl;
@@ -225,14 +221,16 @@ private:
             char tecla = _getch();
             jugador = mover_jugador(tecla);
             if (nivel > 8) bot = mover_bot(jugador, bot);
-
+			turno += 1;
             dibujar_tablero();
             result = comprobar();
+
             if (result != 2) {
                 if (result == 0) {
                     cout << "[+] Que lastima! has muerto" << endl;
                     nivel = 5;
-                    turno=0;
+                    turno = 0;
+                    limite = 25;
                 } else if (result == 1) {
                     cout << "[+] Felicidades has ganado!" << endl;
                     turno = 0;
@@ -244,7 +242,6 @@ private:
                 opcion = tolower(opcion);
                 check(opcion, result);
             }
-            else {turno += 1;}
         }
     }
 
@@ -273,9 +270,7 @@ public:
         insertar_usuario(arch_usuarios, user_name);
 
         nivel = leer_nivel(user_name);
-       
         if (nivel == 0) {
-            turno = 0;
             nivel = 5; // Nivel predeterminado si no hay datos almacenados
         }
 
@@ -294,4 +289,5 @@ int main() {
     cin >> usuario;
     juego.iniciar(usuario);
 
+    return 0;
 }
