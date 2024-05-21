@@ -14,26 +14,31 @@ using namespace std;
 
 class JuegoPirata {
 private:
-    string arch_usuarios = "Usuarios_Pirata.txt";
+    // Nombre del archivo que almacena los usuarios
+    string arch_usuarios = "Usuarios_Pirata.txt"; 
+    // Nombre del usuario
     string user_name;
+    // Nivel actual del juego
     int nivel;
+    // Turno actual
     int turno;
+    // Límite de turnos
     int limite = 25;
+    // Coordenadas del jugador, tesoro y bot
     vector<int> jugador;
     vector<int> tesoro;
     vector<int> bot;
-    vector<int> puente1 = {1, 1}; // Abajo a la izquierda
-    vector<int> puente2 = {1, 1}; // Arriba a la derecha
-    
+    // Posiciones de los puentes
+    vector<int> puente1 = {1, 1};
+    vector<int> puente2 = {1, 1};
 
-    // pasamos a minuscula todo el string
+    // Convierte una cadena a minúsculas
     string lower_case(string str) {
         transform(str.begin(), str.end(), str.begin(), [](unsigned char c) { return tolower(c); });
         return str;
     }
 
-
-    // comprobamos si existe el archivo
+    // Comprueba si un archivo existe
     bool exists(string filename) {
         FILE* file = fopen(filename.c_str(), "r");
         if (file) {
@@ -43,17 +48,14 @@ private:
         return false;
     }
 
-
-    // creamos el archivo
+    // Crea un archivo
     string crear_archivo(string nombre_archivo) {
         ofstream archivo(nombre_archivo);
         archivo.close();
         return nombre_archivo;
     }
 
-
-
-// insertamos el nivel en el archivo del usuario
+    // Inserta el nivel en el archivo del usuario
     void insertar_nivel(string nombre_archivo, int nivel) {
         ofstream archivo(nombre_archivo, ios::app);
         if (archivo.is_open()) {
@@ -66,8 +68,7 @@ private:
         }
     }
 
-    
-    // guardamos el usuario en el archivo de usuarios
+    // Inserta un usuario en el archivo de usuarios
     void insertar_usuario(string nombre_archivo, string usuario) {
         if (exists(nombre_archivo)) {
             ifstream archivo(nombre_archivo);
@@ -87,9 +88,7 @@ private:
         archivo.close();
     }
 
-    
-    
-    // leemos el nivel del archivo
+    // Lee el nivel desde el archivo del usuario
     int leer_nivel(string file) {
         ifstream archivo(file);
         int nivel = 0;
@@ -106,22 +105,17 @@ private:
         return nivel;
     }
 
-    
-    
-    // transforma el color del texto
+    // Establece el color del texto
     void set_color(const string &color) {
         cout << color;
     }
 
-    
-    // resetea al color default
+    // Restaura el color del texto al predeterminado
     void reset_color() {
         cout << "\033[0m";
     }
 
-    
-    
-    // dibuja el tablero
+    // Dibuja el tablero del juego
     void dibujar_tablero() {
         system("cls");
         set_color("\033[38;5;46m"); // Verde para "APB"
@@ -131,11 +125,12 @@ private:
         cout << "| APB |" << " El bot (B) te mata | Los puentes (P) son teleports |" << endl;
         cout << "------------------------------------------------------------" << endl << endl;
         reset_color();
-        set_color("\033[38;5;226m"); // Amarillo para "[+]"
+        set_color("\033[38;5;226m"); // Amarillo para el texto
         cout << "[+] Turno numero: " << turno << "/" << limite << endl;
         cout << "[+] Nivel: " << nivel - 4 << endl << endl;
         reset_color();
 
+        // Dibuja cada celda del tablero
         for (int i = 0; i < nivel; i++) {
             for (int j = 0; j < nivel; j++) {
                 bool esBorde = (i == 0 || i == nivel - 1 || j == 0 || j == nivel - 1);
@@ -156,9 +151,15 @@ private:
                     set_color("\033[48;5;5m\033[38;5;0m"); // Fondo violeta para el bot
                     cout << " B ";
                 } else if (tesoro[0] == i && tesoro[1] == j) {
-                    set_color("\033[48;5;180m\033[38;5;0m"); // Fondo color arena para el tesoro
-                    set_color("\033[38;5;196m"); // Naranja para 'X'
-                    cout << " X ";
+                    // Si el nivel es mayor que 8
+                    if (nivel > 8) {
+                        // Establecer color de fondo y texto para el tesoro
+                        set_color("\033[48;5;180m\033[38;5;0m"); // Fondo color arena
+                        set_color("\033[38;5;196m"); // Texto color naranja para 'X'
+                        cout << " X "; // Imprimir 'X'
+                    } else {
+                        cout << "   "; 
+                    }
                 } else if (esPuenteInterno) {
                     cout << " P ";
                 } else {
@@ -170,8 +171,7 @@ private:
         }
     }
 
-    
-    // genera las cordenadas
+    // Genera una posición aleatoria en el tablero, evitando posiciones de los puentes internos
     vector<int> generar_posicion(int nivel) {
         int a, b;
         do {
@@ -181,8 +181,7 @@ private:
         return {a, b};
     }
 
-    
-    // es la funcion que hace que el bot siga al jugador
+    // Mueve el bot hacia el jugador
     vector<int> mover_bot(vector<int> jugador, vector<int>& bot) {
         if (bot[0] > jugador[0]) bot[0] -= 1;
         else if (bot[0] < jugador[0]) bot[0] += 1;
@@ -191,8 +190,7 @@ private:
         return bot;
     }
 
-    
-    // comprobamos si el jugador gano o perdio
+    // Comprueba si el jugador ha ganado, perdido o empatado
     int comprobar() {
         if (jugador[0] == 0 || jugador[1] == 0 || jugador[0] == nivel - 1 || jugador[1] == nivel - 1) return 0;
         else if (jugador == bot && jugador == tesoro) return 3;
@@ -202,8 +200,7 @@ private:
         else return 2;
     }
 
-    
-    // movemos al jugador en el mapa, y en caso de estar en uno de los puentes lo teletransporta
+    // Mueve al jugador en el mapa, y en caso de estar en uno de los puentes lo teletransporta
     vector<int> mover_jugador(char tecla) {
         if (tecla == 'w' && jugador[0] > 0) jugador[0]--;
         else if (tecla == 's' && jugador[0] < nivel - 1) jugador[0]++;
@@ -220,8 +217,7 @@ private:
         return jugador;
     }
 
-    
-    // generamos las posiciones
+    // Genera las posiciones del jugador, tesoro y bot
     void generar_posiciones() {
         int r;
         do {
@@ -232,14 +228,12 @@ private:
         } while (r == 0 || jugador == tesoro || jugador == vector<int>{1, nivel - 2} || jugador == vector<int>{nivel - 2, 1} || tesoro == vector<int>{1, nivel - 2} || tesoro == vector<int>{nivel - 2, 1} || bot == vector<int>{1, nivel - 2} || bot == vector<int>{nivel - 2, 1});
     }
 
-    
-    // guardamos los datos
+    // Guarda los datos del usuario
     void guardar_datos() {
         insertar_nivel(user_name, nivel);
     }
 
-    
-    // es el codigo que realiza todo el juego
+    // Comprueba la opción del usuario después de finalizar una partida
     void check(char opcion, int result) {
         if (opcion == 's' && result == 1) {
             nivel += 1;
@@ -265,6 +259,16 @@ private:
         }
     }
 
+    // Comprueba si una tecla es válida para mover al jugador
+    bool comprobar_tecla(char tecla) {
+        vector <char> jugadas = {'w', 'a', 's', 'd'};
+        for (int i = 0; i < jugadas.size(); i++) {
+            if (tecla == jugadas[i]) return true;
+        }
+        return false;
+    }
+
+
     void juego() {
         char opcion;
         int result;
@@ -276,40 +280,41 @@ private:
             char tecla = _getch();
             jugador = mover_jugador(tecla);
             if (nivel > 8) bot = mover_bot(jugador, bot);
-            turno += 1;
+            else if (comprobar_tecla(tecla)) turno += 1;
+            else continue;
             dibujar_tablero();
             result = comprobar();
 
             if (result != 2) {
                 if (result == 0) {
-                    set_color("\033[38;5;226m"); // Amarillo para "[+]"
+                    set_color("\033[38;5;226m"); // Amarillo para el texto
                     cout << "[+] Que lastima! has muerto" << endl;
                     reset_color();
                     nivel = 5;
                     turno = 0;
                     limite = 25;
                 } else if (result == 1) {
-                    set_color("\033[38;5;226m"); // Amarillo para "[+]"
+                    set_color("\033[38;5;226m"); // Amarillo para el texto
                     cout << "[+] Felicidades has ganado!" << endl;
                     reset_color();
                     turno = 0;
                     if (nivel == 5) {
-                        set_color("\033[38;5;226m"); // Amarillo para "[+]"
+                        set_color("\033[38;5;226m"); // Amarillo para el texto
                         cout << "[+] Has superado el primer nivel!" << endl;
                         reset_color();
                     } else {
-                        set_color("\033[38;5;226m"); // Amarillo para "[+]"
+                        set_color("\033[38;5;226m"); // Amarillo para el texto
                         cout << "[+] Felicidades, has llegado hasta el nivel " << nivel - 4 << "!" << endl;
                         reset_color();
                     }
                 } else {
-                    set_color("\033[38;5;226m"); // Amarillo para "[+]"
+                    set_color("\033[38;5;226m"); // Amarillo para el texto
                     cout << "[+] Casi! Pero empataste" << endl;
                     reset_color();
                     turno = 0;
                 }
 
-                set_color("\033[38;5;45m"); // Cyan para "[i]"
+                set_color("\033[38;5;45m"); // Cyan para el texto
                 cout << "[i] Continuar? (s/n): ";
                 reset_color();
                 cin >> opcion;
@@ -320,18 +325,15 @@ private:
     }
 
 public:
-
     // Constructor de clase
     JuegoPirata(string user_name) : user_name(user_name) {
         nivel = 5;
         bot = {0, 0};
     }
 
-
-    // vamos seleccionando todos los nombre de usuario y los vamos mostrando en la pantalla
+    // Muestra la lista de usuarios
     void mostrar_usuarios() {
         if (exists(arch_usuarios)) {
-
             cout << "-- Usuarios --" << endl;
             ifstream archivo(arch_usuarios);
             string linea;
@@ -343,6 +345,7 @@ public:
         }
     }
 
+    // Inicia el juego para un usuario
     void iniciar(string usuario) {
         user_name = usuario + ".txt"; // Nombre correcto del archivo de usuario
         user_name = lower_case(user_name);
@@ -358,15 +361,15 @@ public:
 };
 
 int main() {
-    srand(time(0));
+    srand(time(0)); // Inicializa la semilla para la generación de números aleatorios
     string usuario;
 
-    JuegoPirata juego(usuario);
-    juego.mostrar_usuarios();
+    JuegoPirata juego(usuario); // Crea una instancia del juego
+    juego.mostrar_usuarios(); // Muestra la lista de usuarios
 
     cout << "[i] Ingrese su nombre de usuario: ";
     cin >> usuario;
-    juego.iniciar(usuario);
+    juego.iniciar(usuario); // Inicia el juego para el usuario ingresado
 
     return 0;
 }
