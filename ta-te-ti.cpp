@@ -29,13 +29,24 @@ class Tateti {
 		}
 
 
+		int pasar_jugada() { // dependiendo de la posicion que haya ingresado el jugador se le da un valor a la matriz del tablero
+			if (turno % 2 == 0) tablero[posicion[0]][posicion[1]] = 1;
+			else				tablero[posicion[0]][posicion[1]] = 0;
+		}
+
+
 		void dibujar_tablero() {
+
+			pasar_jugada();
+
+			cout << "    0 | 1 | 2 |" << endl;
 			for (int i = 0; i < 3; i++) {
-				cout << "|";
-				for (int j = 0; i<3; j++) {
+				cout << i << " |";
+				for (int j = 0; j<3; j++) {
 					if (turno = 0 || tablero[i][j] == -1) cuot << "   |";
-					else {
+					else { // dependiendo del valor de la matriz de tablero se dibuja X o O
 						if (tablero[i][j] == 0) cout << " X |";
+						else 					cout << " O |";
 					}
 				}
 				cout << "-----------------------" << endl;
@@ -50,6 +61,7 @@ class Tateti {
 			return posicion;
 		}
 
+
 		void juego() {
 			vector <int> posicion;
 			map <int, int> puntos {{0,0}, {1,0}};
@@ -61,8 +73,12 @@ class Tateti {
 			while (true) {
 				posicion = get_jugada();
 				if (!jugada_valida()) continue;
-
 				dibujar_tablero();
+				if(comprobar_ganador() == 0) {
+					map
+				}
+
+				turno ++;
 			}
 		}
 
@@ -80,4 +96,3 @@ int main(int argc, char** argv) {
 	return 0;
 }
 
-  
