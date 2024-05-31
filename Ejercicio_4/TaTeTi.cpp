@@ -12,18 +12,6 @@ class Tateti {
         int turno;
         vector<int> posicion;
 
-        // Verifica si la jugada es válida
-        bool jugada_valida() {
-            for (int i = 0; i < 2; i++) {
-                if (posicion[i] > 2 || posicion[i] < 0) {
-                    set_color("\033[38;5;196m");
-                    cout << "[!] Ingrese una posicion valida" << endl;
-                    reset_color();
-                    return false;
-                }
-            }
-            return true;
-        }
 
         // Establece el color del texto
         void set_color(const string &color) {
@@ -46,22 +34,39 @@ class Tateti {
         void pasar_jugada() {
             if (turno % 2 == 0) tablero[posicion[0]][posicion[1]] = 1;
             else tablero[posicion[0]][posicion[1]] = 0;
+            
+        }
+
+        // Valida que la jugada sea en una casilla valida
+        bool validar_jugada () {
+            if (tablero[posicion[0]][posicion[1]] == -1) return true;
+            else {
+                set_color("\033[38;5;196m");
+                cout << "[!] Ingrese una posicion valida" << endl;
+                reset_color();
+                return false;
+            }
         }
 
         // Dibuja el tablero en la consola
         void dibujar_tablero() {
+            set_color("\033[0;35m");
             cout << "  | 0 | 1 | 2 |" << endl << "---------------" << endl;
+            reset_color();
             for (int i = 0; i < 3; i++) {
+                set_color("\033[0;35m");
                 cout << i << " |";
+                reset_color();
                 for (int j = 0; j < 3; j++) {
-                    if (tablero[i][j] == -1) cout << "   |";
+                    if (tablero[i][j] == -1) cout << "   ";
                     else {
-                        if (tablero[i][j] == 0) cout << " O |";
-                        else cout << " X |";
+                        if (tablero[i][j] == 0) cout << " \033[0;34mO\033[0m ";
+                        else cout << " \033[1;32mX\033[0m "; // escribo en rojo la X
                         reset_color();
                     }
+                    cout << "\033[0;35m|\033[0m";
                 }
-                cout << "\n---------------" << endl;
+                cout << "\n\033[0;35m---------------\033[0m" << endl;
             }
         }
 
@@ -116,7 +121,7 @@ class Tateti {
 
             while (true) {
                 posicion = get_jugada();
-                if (!jugada_valida()) continue;
+                if (!validar_jugada()) continue;
                 pasar_jugada();
                 dibujar_tablero();
                 
@@ -124,12 +129,15 @@ class Tateti {
                 char opcion;
                 if (ganador != -1) {
                     if (ganador == 2) {
-                        cout << "¡Empate!" << endl;
+                        set_color("\033[0;33m");
+                        cout << "[+] Empate!" << endl;
                     } else {
-                        cout << "¡Tenemos un ganador! Jugador " << (ganador == 1 ? "X" : "O") << endl;
+                        set_color("\033[0;33m");
+                        cout << "[+] Tenemos un ganador! Jugador " << (ganador == 1 ? "X" : "O") << endl << endl;
+                        reset_color();
                         puntos[ganador]++;
                     }
-                    cout << "¿Quieren volver a jugar? (s/n): "; 
+                    cout << "[?] ¿Quieren volver a jugar? (s/n): "; 
                     cin >> opcion;
                     check(opcion);
                     break;
