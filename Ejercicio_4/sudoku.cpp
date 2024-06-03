@@ -49,6 +49,47 @@ private:
 
     }
 
+    void fill_box(int fila, int columna, vector <int> nums, int rsize) {
+        random_shuffle(nums.begin(), nums.end());
+
+        for (fila; fila<rsize; fila++) {
+            for (columna; columna<rsize; columna) {
+                for (int num : nums) {
+                    if (check_cuadro(fila, columna, num)) {
+                        tablero[fila][columna] = num;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    void iniciar_diagonal(int size, int fila, int columna, vector <int> nums) {
+        int rsize = sqrt(size);
+        for (int i = 0; i<rsize; i++) {
+            fill_box(fila,columna,nums,rsize);
+            fila+=rsize;
+            columna+=rsize;
+        }
+    }
+
+    void iniciar_resto(int size, int fila, int columna, vector <int> nums) {
+        int rsize = sqrt(size);
+
+        for(int i = 0; i < size; i++) {
+            for (int num : nums) {
+                if (tablero[fila][columna] == num) {
+                    if (columna + 1 == size) {fila ++; columna = 0;}
+                    else                     columna ++;
+                }
+            }
+            if (fila == size) break;
+            fill_box(fila,columna,nums,rsize);
+        }
+    }
+
+
+
     void iniciar_tablero(int dificultad) {
         tablero.clear();
         tablero.resize(dificultad, vector<int>(dificultad, 0));
@@ -58,18 +99,22 @@ private:
         iota(nums_validos.begin(), nums_validos.end(), 1);
 
 
-        for (int fila = 0; fila < dificultad; fila++) {
-            for (int columna = 0; columna < dificultad; columna++) {
-                random_shuffle(nums_validos.begin(), nums_validos.end());
+        // for (int fila = 0; fila < dificultad; fila++) {
+        //     for (int columna = 0; columna < dificultad; columna++) {
+        //         random_shuffle(nums_validos.begin(), nums_validos.end());
 
-                for (int num : nums_validos) {
-                    if (check_cuadro(fila, columna, num)) {
-                        tablero[fila][columna] = num;
-                        break;
-                    }
-                }
-            }
-        }
+        //         for (int num : nums_validos) {
+        //             if (check_cuadro(fila, columna, num)) {
+        //                 tablero[fila][columna] = num;
+        //                 break;
+        //             }
+        //         }
+        //     }
+        // }
+
+        iniciar_diagonal(dificultad,0,0,nums_validos);
+        //iniciar_resto(dificultad,0,0,nums_validos);
+
     }
 
     int pedir_dificultad() {
