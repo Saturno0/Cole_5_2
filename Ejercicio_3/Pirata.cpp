@@ -280,7 +280,7 @@ private:
             char tecla = _getch();
             jugador = mover_jugador(tecla);
             if (nivel > 8) bot = mover_bot(jugador, bot);
-            else if (comprobar_tecla(tecla)) turno += 1;
+            if (comprobar_tecla(tecla)) turno += 1;
             else continue;
             dibujar_tablero();
             result = comprobar();
