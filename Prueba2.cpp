@@ -12,13 +12,6 @@ const string L_Rojo= "\033[1;31m";
 const string L_Verde= "\033[1;32m";
 const string L_Azul= "\033[1;34m";
 
-// Fondo:
-const string F_Rojo= "\033[1;41m";
-const string F_Verde= "\033[1;42m";
-const string F_Azul= "\033[1;44m";
-
-
-
 void reset_color() {
 	cout << "\033[0m";
 }
