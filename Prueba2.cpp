@@ -12,6 +12,13 @@ const string L_Rojo= "\033[1;31m";
 const string L_Verde= "\033[1;32m";
 const string L_Azul= "\033[1;34m";
 
+// Fondo:
+const string F_Rojo= "\033[1;41m";
+const string F_Verde= "\033[1;42m";
+const string F_Azul= "\033[1;44m";
+
+
+
 void reset_color() {
 	cout << "\033[0m";
 }
@@ -35,7 +42,7 @@ vector <int> cant_alf() { // pide la cantidad de alfajores producida por cada op
 
 void informar_error( vector <int> restos, vector <int> operario) {
     system("cls");
-    set_color(L_Rojo);
+    set_color(L_Rojo); // Informo y calculo el error de los operarios e informo el de cada uno
     for (int i = 0; i < 6; i++) {
         cout << "[!] El error del operario " << i+1 << " es de " << restos[i] << "\n\t[*] Habiendo producido --> " << operario[i] << endl;
     }
@@ -55,10 +62,11 @@ void Ganancia( vector <int> operario, int precio) {
 
     set_color(L_Azul);
     for (int i = 0; i < 6; i++) {
-        ganancia[i] = (ganancia[i] / 6) * precio;
+        ganancia[i] = (ganancia[i] / 6) * precio; // calculo cual es la ganancia de cada operario y la informo
         cout << "El operario numero " << i + 1 << " genero: " << ganancia[i] << "$" << endl;
         ganancia_total += ganancia[i];
     }
+    // informo la ganancia total
     cout << "La ganancia total es de: " << ganancia_total << endl;
     reset_color();
 }
@@ -136,7 +144,7 @@ void opciones( vector <int> precios) {
 
 }
 
-void inicio() {
+void inicio() { // inicio del programa
     vector <int> precios;
     vector <string> cajas {"Chocolate", "Dulce de leche", "Fruta", "Mixto"};
     int precio;
