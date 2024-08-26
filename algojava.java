@@ -1,3 +1,4 @@
+// Online Java Compiler
 import java.util.Scanner;
 
 
@@ -6,7 +7,8 @@ class Test {
     public static void main(String[] args) {
         //ejersicio1();
         //ejercicio2();
-        ejercicio3();
+        //ejercicio3();
+        ejercicio4();
     }
     
     private static void ejercicio1() {
@@ -54,5 +56,72 @@ class Test {
                 break;
             }
         }
+    }
+    
+    public static void suma() {
+        Scanner myObj = new Scanner(System.in);
+        int a,b;
+        System.out.println("Ingrese el primer numero: ");
+        a = myObj.nextInt();
+        System.out.println("Ingrese el segundo numero: ");
+        b = myObj.nextInt();
+        System.out.println(a + " " + "+ " + b + " = " + (a+b));
+    }
+    public static void resta() {
+        Scanner myObj = new Scanner(System.in);
+        int a,b;
+        System.out.println("Ingrese el primer numero: ");
+        a = myObj.nextInt();
+        System.out.println("Ingrese el segundo numero: ");
+        b = myObj.nextInt();
+        System.out.println(a + " " + "- " + b + " = " + (a-b));
+    }
+    public static void multiplicacion() {
+        Scanner myObj = new Scanner(System.in);
+        int a,b;
+        System.out.println("Ingrese el primer numero: ");
+        a = myObj.nextInt();
+        System.out.println("Ingrese el segundo numero: ");
+        b = myObj.nextInt();
+        System.out.println(a + " " + "* " + b + " = " + (a*b));
+    }
+    public static void division() {
+        Scanner myObj = new Scanner(System.in);
+        int a,b;
+        System.out.println("Ingrese el primer numero: ");
+        a = myObj.nextInt();
+        System.out.println("Ingrese el segundo numero: ");
+        b = myObj.nextInt();
+        System.out.println(a + " " + "/ " + b + " = " + (a/b));
+    }
+    
+    private static void ejercicio4() {
+        Scanner myObj = new Scanner(System.in);
+        while (true) {
+            System.out.println("Ingrese que tipo de operacion arigmetica quiere realizar: + (suma), - (resta), * (multiplicacion), / (division): ");
+            char oper = myObj.next().charAt(0);
+            switch(oper) {
+                case '+':
+                    suma();
+                    break;
+                case '-':
+                    resta();
+                    break;
+                case '*':
+                    multiplicacion();
+                    break;
+                case '/':
+                    division();
+                    break;
+                default:
+                    System.out.println("Ingrese un valor valido");
+                    break;
+            }
+        }
+    }
+    
+    private static void ejercicio5() {
+        Scanner myObj = new Scanner(System.in);
+        
     }
 }
