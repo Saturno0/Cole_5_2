@@ -1,6 +1,6 @@
 // Online Java Compiler
 import java.util.Scanner;
-
+import java.util.ArrayList;
 
 class Test {
     
@@ -8,7 +8,8 @@ class Test {
         //ejersicio1();
         //ejercicio2();
         //ejercicio3();
-        ejercicio4();
+        //ejercicio4();
+        ejercicio5();
     }
     
     private static void ejercicio1() {
@@ -122,6 +123,19 @@ class Test {
     
     private static void ejercicio5() {
         Scanner myObj = new Scanner(System.in);
+        int nums[];
+        nums = new int[10];
+        System.out.println("Ingrese 10 numeros enteros: ");
+        for (int i = 0; i < nums.length; i++) {
+            int n = myObj.nextInt();
+            nums[i] = n;
+        }
+        System.out.println("Los siguientes numeros que ingreso son primos: ");
+        for(int n : nums) {
+            if(!checkprimo(n)) {
+                System.out.println(n + " es primo");
+            }
+        }        
         
     }
 }
