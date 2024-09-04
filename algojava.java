@@ -1,3 +1,4 @@
+
 package project;
 
 import java.util.Scanner;
@@ -5,32 +6,55 @@ import java.util.Scanner;
 
 class project {
  
- public static void main(String[] args) {
-    Scanner leer = new Scanner(System.in);
-    System.out.print("Ingrese que ejercicio quiere ver (1,2,3,4 o 5):");
-    int option = leer.nextInt();
-    
-    switch(option) {
-    	case 1:
-    		ejercicio1();
-    		break;
-    	case 2:
-    		ejercicio2();
-    		break;
-    	case 3:
-    		ejercicio3();
-    		break;
-    	case 4:
-    		ejercicio4();
-    		break;
-    	case 5:
-    		ejercicio5();
-    		break;
-    	default:
-    		break;
+	public static void main(String[] args) {
+        boolean bool = true;
+        
+        try {
+        	Scanner leer = new Scanner(System.in);
+        	do {
+        		System.out.print("Ingrese qué ejercicio quiere ver (1,2,3,4,5,6,7,8) o 0 para salir: ");
+                
+                int option = leer.nextInt();
+                    switch(option) {
+                        case 1:
+                            ejercicio1();
+                            break;
+                        case 2:
+                            ejercicio2();
+                            break;
+                        case 3:
+                            ejercicio3();
+                            break;
+                        case 4:
+                            ejercicio4();
+                            break;
+                        case 5:
+                            ejercicio5();
+                            break;
+                        case 6:
+                            Fernando();
+                            break;
+                        case 7:
+                            pares();
+                            break;
+                        case 8:
+                            iva();
+                            break;
+                        case 0:
+                            bool = false;
+                            break;
+                        default:
+                            System.out.println("Opción no válida.");
+                            break;
+                    }
+            
+        	} while (bool);
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+        }
+        
+            
     }
-    leer.close();
- }
  
  private static void ejercicio1() {
      for (int i = 1; i <= 100; i++){
@@ -164,5 +188,38 @@ class project {
          }
      }        
      myObj.close();
+ }
+ 
+ public static void print(String texto) {
+	 System.out.println(texto);
+ }
+ 
+ private static void Fernando() {
+	 Scanner leer = new Scanner(System.in);
+	 print("Ingrese su nombre: ");
+	 String name = leer.nextLine();
+	 System.out.println("\nHola " + name);
+	 leer.close();
+ }
+ 
+ private static void pares() {
+	 int n;
+	 Scanner leer = new Scanner(System.in);
+	 print("Ingrese un numero: ");
+	 n = leer.nextInt();
+	 if (n % 2 == 0) System.out.print(n + " es par");
+	 else			 System.out.print(n + " es impar");
+	 leer.close();
+ }
+ 
+ private static void iva() {
+	 double precio;
+	 Scanner leer = new Scanner(System.in);
+	 print("Ingrese un precio: ");
+	 precio = leer.nextDouble();
+	 final double iva = (precio * 0.21);
+	 double precio_final= precio + iva;
+	 System.out.println("El precio final seria de: " + precio_final);
+	 leer.close();
  }
 }
