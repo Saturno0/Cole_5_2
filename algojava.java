@@ -1,7 +1,9 @@
 
+
 package project;
 
 import java.util.Scanner;
+import java.math.*;
 
 
 class project {
@@ -12,7 +14,7 @@ class project {
         try {
         	Scanner leer = new Scanner(System.in);
         	do {
-        		System.out.print("Ingrese qué ejercicio quiere ver (1,2,3,4,5,6,7,8) o 0 para salir: ");
+        		System.out.print("Ingrese qué ejercicio quiere ver (1,2,3,4,5,6,7,8,9) o 0 para salir: ");
                 
                 int option = leer.nextInt();
                     switch(option) {
@@ -40,6 +42,9 @@ class project {
                         case 8:
                             iva();
                             break;
+                        case 9:
+                        	f_cuadratica();
+                        	break;
                         case 0:
                             bool = false;
                             break;
@@ -49,11 +54,12 @@ class project {
                     }
             
         	} while (bool);
+        	leer.close();
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
         }
         
-            
+        
     }
  
  private static void ejercicio1() {
@@ -64,7 +70,7 @@ class project {
      
  }
  
- private static boolean checkprimo(int i) {
+ public static boolean checkprimo(int i) {
      for (int j = 2; j < i; j++) {
              if (i % j == 0) {
                  return true;
@@ -101,7 +107,6 @@ class project {
              break;
          }
      }
-     myObj.close();
  }
  
  public static void suma() {
@@ -168,7 +173,6 @@ class project {
                  System.out.println("Ingrese un valor valido");
                  break;
          }
-         myObj.close();
      }
  }
  
@@ -187,7 +191,6 @@ class project {
              System.out.println(n + " es primo");
          }
      }        
-     myObj.close();
  }
  
  public static void print(String texto) {
@@ -209,7 +212,6 @@ class project {
 	 n = leer.nextInt();
 	 if (n % 2 == 0) System.out.print(n + " es par");
 	 else			 System.out.print(n + " es impar");
-	 leer.close();
  }
  
  private static void iva() {
@@ -220,6 +222,27 @@ class project {
 	 final double iva = (precio * 0.21);
 	 double precio_final= precio + iva;
 	 System.out.println("El precio final seria de: " + precio_final);
-	 leer.close();
+ }
+ 
+ public static void cuadratica(double a, double b, double c) {
+	 double n1 = ((-b) + Math.sqrt(Math.pow(b, 2) - (4 * a * c))) / (2 * a);
+	 double n2 = ((-b) - Math.sqrt(Math.pow(b, 2) - (4 * a * c))) / (2 * a);
+	 
+	 System.out.println("Estos son los dos resultados: " + n1 + " y " + n2);
+ }
+ 
+ private static void f_cuadratica() {
+	 double a = 0,b = 0,c = 0;
+	 double nums[] = {a,b,c};
+	 Scanner abc = new Scanner(System.in);
+	 
+	 System.out.println("Ingrese los valores de a,b y c en ese orden: ");
+	 
+	 for(int i = 0; i < nums.length; i++) {
+		 nums[i] = abc.nextDouble();
+	 }
+	 
+	 cuadratica(nums[0],nums[1],nums[2]);
+	 
  }
 }
