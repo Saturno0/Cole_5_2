@@ -1,8 +1,10 @@
 
 
+
 package project;
 
-import java.util.Scanner;
+
+import java.util.*;
 import java.math.*;
 
 
@@ -243,6 +245,48 @@ class project {
 	 }
 	 
 	 cuadratica(nums[0],nums[1],nums[2]);
+	 
+ }
+ 
+ private static void _26 () {
+	 Scanner leer = new Scanner(System.in);
+	 int n,i = 1;
+	 System.out.print("Ingrese un numero mayor a 1 y que sea entero: ");
+	 while (true) {
+		 n=leer.nextInt();
+		 if (n >= 1) {
+			 for(int j = 1; j <= n; j++) {
+				 i += j;
+			 }
+			 System.out.println("La suma es: " + i);
+			 break;
+		 } else {
+			 System.out.println("Ingresa un numero mayor a 1 papito dale, yo se que no sos tan boludo: ");
+		 }
+	 }
+	 
+ }
+ 
+ private static void introducidos() {
+	 Stack<Integer> nums = new Stack<>();
+	 Scanner leer = new Scanner(System.in);
+	 int n = 0;
+	 System.out.println("Ingrese -1 si quiere terminar el programa");
+	 while (n != -1) {
+		 n = leer.nextInt();
+		 nums.push(n);
+	 }
+	 
+	 System.out.println(nums.size());
+ }
+ 
+ private static void remplazar() {
+	 Scanner leer = new Scanner(System.in);
+	 System.out.println("Ingrese una oracion o palabra");
+	 String word = leer.nextLine();
+	 System.out.println("Que ejercicio quiere seguir? (23 o 28)");
+	 String word2 = word;
+	 word2 = word.replace(' ', '');
 	 
  }
 }
