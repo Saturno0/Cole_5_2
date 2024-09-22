@@ -1,6 +1,3 @@
-
-
-
 package project;
 
 
@@ -285,8 +282,61 @@ class project {
 	 System.out.println("Ingrese una oracion o palabra");
 	 String word = leer.nextLine();
 	 System.out.println("Que ejercicio quiere seguir? (23 o 28)");
-	 String word2 = word;
-	 word2 = word.replace(' ', '');
+	 String word2 = "";
+	 char chara;
+	 for (int i = 0; i < word.length(); i++) {
+		 chara = word.charAt(i);
+		 if(chara != ' ') {
+			 word2 += String.valueOf(chara);
+		 }
+	 }
+	 System.out.println("Tu primera frase fue: " + word + "\nSu frase final es: " + word2);
+ }
+ 
+ private static void _30() {
+	 Scanner leer = new Scanner(System.in);
+	 String linea = leer.nextLine();
+	 
+	 System.out.print("Quiere pasarlo todo a mayusculas o a minusculas?(M = mayusculas/ m = minusculas) ");
+	 String linea2 = "";
+	 
+	 while (true) {
+		 char option = leer.next().charAt(0);
+		 switch(option) {
+		 	case 'M':
+		 		linea2 = linea.toUpperCase();
+		 		break;
+		 	case 'm':
+		 		linea2 = linea.toLowerCase();
+		 		break;
+		 	default:
+		 		System.out.print("Ingrese una opcion correcta: ");
+		 		continue;
+		 }
+		 
+		 break;
+	 }
+	 System.out.println("Primera linea: " + linea +  "\nSegunda linea: " + linea2);
 	 
  }
+ 
+ 
+ private static void _31() {
+	 Scanner leer = new Scanner(System.in);
+	 String linea = leer.nextLine();
+	 System.out.println(linea.length());
+ }
+ 
+ 
+ private static void _32() {
+	 Scanner leer = new Scanner(System.in);
+	 String linea1 = leer.next();
+	 System.out.print("Ingrese otra palabra (puede ser la misma): ");
+	 String linea2 = leer.next();
+	 
+	 if(linea1.equals(linea2)) System.out.println("Son iguales");
+	 else					   System.out.println("No son iguales");
+ }
+ 
+ 
 }
