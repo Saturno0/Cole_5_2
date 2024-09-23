@@ -338,5 +338,39 @@ class project {
 	 else					   System.out.println("No son iguales");
  }
  
+ private static void _33() {
+	 Scanner leer = new Scanner(System.in);
+	 String linea1 = leer.next();
+	 
+	 System.out.println(linea1.substring(4, 6));
+ }
+ 
+ private static void _34() {
+	 Scanner leer = new Scanner(System.in);
+	 String linea1 = leer.next();
+	 String palabras[] = linea1.split(" ");
+	 
+	 for (String s : palabras) {
+		 System.out.println(s);
+	 }
+ }
+ 
+ enum dias {
+	 LUNES,
+	 MARTES,
+	 MIERCOLES,
+	 JUEVES,
+	 VIERNES,
+	 SABADO,
+	 DOMINGO
+ }
+ 
+ private static void _35() {
+	 Scanner leer = new Scanner(System.in);
+	 
+	 
+	 
+ }
+ 
  
 }
