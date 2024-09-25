@@ -355,22 +355,68 @@ class project {
 	 }
  }
  
- enum dias {
+ public enum Dias {
 	 LUNES,
 	 MARTES,
 	 MIERCOLES,
 	 JUEVES,
 	 VIERNES,
 	 SABADO,
-	 DOMINGO
- }
+	 DOMINGO;
+}
  
  private static void _35() {
 	 Scanner leer = new Scanner(System.in);
 	 
+	 String day = leer.next();
+	 Dias diaS = Dias.valueOf(day.toUpperCase());
 	 
 	 
+	 switch(diaS){
+     	case LUNES:
+     	case MARTES:
+     	case MIERCOLES:
+     	case JUEVES:
+     	case VIERNES:
+     		System.out.println("El dia "+ diaS.name().toLowerCase() + " es laborable");
+     		break;
+     	case SABADO:
+     	case DOMINGO:
+     		System.out.println("El dia " + diaS + " no es laborable");
+     		break;
+     
+	 }
  }
  
+ public enum DiasSemana {
+	 LUNES(true),
+	 MARTES(true),
+	 MIERCOLES(true),
+	 JUEVES(true),
+	 VIERNES(true),
+	 SABADO(false),
+	 DOMINGO(false);
+	 
+	 private boolean laburable;
+	 
+	 private DiasSemana (boolean laburable) {
+		 this.laburable = laburable;
+	 }
+	 
+	 @Override
+	 public String toString() {
+		 if(laburable) {
+			 return "Es un dia laburable";
+		 } else {
+			 return "No es un dia laburable";
+		 }
+	 }
+}
+ 
+ 
+ 
+ private static void _36() {
+	 
+ }
  
 }
