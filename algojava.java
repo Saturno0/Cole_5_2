@@ -44,6 +44,9 @@ class project {
                         case 9:
                         	f_cuadratica();
                         	break;
+                        case 10:
+                        	_38();
+                        	break;
                         case 0:
                             bool = false;
                             break;
@@ -416,6 +419,40 @@ class project {
  
  
  private static void _36() {
+	 Scanner leer = new Scanner(System.in);
+	 System.out.print("Ingrese un dia de la semana: ");
+	 String dia = leer.next();
+	 
+	 DiasSemana dias = DiasSemana.valueOf(dia.toUpperCase());
+	 
+	 System.out.println(dias.toString());
+ }
+ 
+ private static void _38() {
+	 int maxN = 0,menN = 0,sum= 0, pSum = 0, n = 0, i = 0;
+	 Scanner leer = new Scanner(System.in);
+	 
+	 while(true) {
+		
+		 n = leer.nextInt();
+		 
+		 if(n==-1) {break;}
+		 
+		 if ( i == 0) {
+			 maxN = n;
+			 menN = n;
+			 sum = n;
+			 pSum = n; 
+		 } else {
+			 if (n > maxN) maxN = n;
+			 if (n < menN) menN = n;
+			 sum += n;
+			 pSum = sum / (i+1);
+		 }
+		i++;
+	 }
+	 
+	 System.out.println("El mayor: " + maxN + "\nEl menor: " + menN + "\nLa suma: " + sum + "\nEl promedio de la suma: " + pSum);
 	 
  }
  
