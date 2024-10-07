@@ -23,34 +23,35 @@ public class inicio {
 		Scanner input = new Scanner(System.in);
 		
 		while (true) {
+			clearConsole();
 			System.out.println("Bienvenido al juego de piedra, papel o tijera, en que dificultad quiere jugar?"
 					+ "\n1-Facil(el mejor de 3)"
 					+ "\n2-Medio(el mejor de 3)"
 					+ "\n3-Dificil(el mejor de 5)"
 					+ "\n4-Salir");
-		int option = input.nextInt();
+			int option = input.nextInt();
 		
-		if (option == 4) break;
+			if (option == 4) break;
 		
-		switch(option) {
-		case 1:
-			facil(3);
-			break;
-		case 2:
-			medio(5);
-			break;
-		case 3:
-			dificil(7);
-			break;
-		default:
-			break;
-		}
-		
-		if (cpu > usuario) System.out.println("El ganador final es la computadora");
-		else 			   System.out.println("El ganador final es el jugador");
+			switch(option) {
+			case 1:
+				facil(3);
+				break;
+			case 2:
+				medio(5);
+				break;
+			case 3:
+				dificil(7);
+				break;
+			default:
+				break;
+			}
 
-		System.out.println("Muchas gracias por jugar con nosotros :)");
-		}
+			if (cpu > usuario) System.out.println("El ganador final es la computadora");
+			else 			   System.out.println("El ganador final es el jugador");
+
+			System.out.println("Muchas gracias por jugar con nosotros :)");
+			}
 	}
 	
 	public static void facil(int partidas) {
