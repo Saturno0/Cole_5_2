@@ -1,5 +1,7 @@
 import java.util.*;
 
+
+
 public class inicio {
 	
 	static final int[] jugadas_validas = {0,1,2};
@@ -14,20 +16,24 @@ public class inicio {
 		return false;
 	}
 	
-	public static void main(String[] args) { 
+	public static void main(String[] args) throws InterruptedException{ 
 		inicio juego = new inicio();
 		juego.pantallaInicio();
 	}
+
+	public static void clearConsole() {
+		for(int i = 0; i < 50; i++) System.out.println();
+	}
 	
-	private void pantallaInicio() {
+	private void pantallaInicio() throws InterruptedException{
 		Scanner input = new Scanner(System.in);
 		
 		while (true) {
 			clearConsole();
 			System.out.println("Bienvenido al juego de piedra, papel o tijera, en que dificultad quiere jugar?"
 					+ "\n1-Facil(el mejor de 3)"
-					+ "\n2-Medio(el mejor de 3)"
-					+ "\n3-Dificil(el mejor de 5)"
+					+ "\n2-Medio(el mejor de 5)"
+					+ "\n3-Dificil(el mejor de 10)"
 					+ "\n4-Salir");
 			int option = input.nextInt();
 		
@@ -41,17 +47,21 @@ public class inicio {
 				medio(5);
 				break;
 			case 3:
-				dificil(7);
+				dificil(10);
 				break;
 			default:
 				break;
 			}
 
+			Thread.sleep(1000);
+
 			if (cpu > usuario) System.out.println("El ganador final es la computadora");
 			else 			   System.out.println("El ganador final es el jugador");
 
 			System.out.println("Muchas gracias por jugar con nosotros :)");
-			}
+
+				
+		}
 	}
 	
 	public static void facil(int partidas) {
@@ -61,7 +71,7 @@ public class inicio {
 			int jugada_user = game(0);
 			int jugada_cpu = game(1);
 			
-			juego.checkWinner(jugada_user, jugada_cpu);
+			if (juego.checkWinner(jugada_user, jugada_cpu) == 1) continue;
 			i++;
 		}
 	}
@@ -76,7 +86,7 @@ public class inicio {
 			int jugada_cpu = calcular_JM(jugadas_user);
 			jugadas_user.add(jugada_user);
 
-			juego.checkWinner(jugada_user, jugada_cpu);
+			if (juego.checkWinner(jugada_user, jugada_cpu) == 1) continue;
 			i++;
 		}
 	}
@@ -91,7 +101,7 @@ public class inicio {
 			int jugada_cpu = calcular_JD(jugadas_user);
 			jugadas_user.add(jugada_user);
 
-			juego.checkWinner(jugada_user, jugada_cpu);
+			if (juego.checkWinner(jugada_user, jugada_cpu) == 1) continue;
 			i++;
 		}
 	}
@@ -176,15 +186,18 @@ public class inicio {
 	}
 
 
-	private void checkWinner(int jugada_user, int jugada_cpu) {
+	private int checkWinner(int jugada_user, int jugada_cpu) {
 		if (jugada_user == comparacion[1][jugada_cpu]) {
 			System.out.println("Has ganado!! :)");
 			usuario++;
+			return 0;
 		} else if (jugada_user == jugada_cpu) {
 			System.out.println("Uff empate");
+			return 1;
 		} else {
 			System.out.println("Uhhh, que lastima. Has perdido :(");
 			cpu++;
+			return 0;
 		}
 	}
 }
