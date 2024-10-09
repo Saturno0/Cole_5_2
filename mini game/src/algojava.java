@@ -1,8 +1,7 @@
-package project;
+
 
 
 import java.util.*;
-import java.math.*;
 
 
 class project {
@@ -429,30 +428,28 @@ class project {
  }
  
  private static void _38() {
-	 int maxN = 0,menN = 0,sum= 0, pSum = 0, n = 0, i = 0;
-	 Scanner leer = new Scanner(System.in);
+	Scanner leer = new Scanner(System.in);
+	ArrayList <Integer> listNum = new ArrayList<Integer>();
+	int sum = 0, psum = 0;
 	 
-	 while(true) {
-		
-		 n = leer.nextInt();
-		 
-		 if(n==-1) {break;}
-		 
-		 if ( i == 0) {
-			 maxN = n;
-			 menN = n;
-			 sum = n;
-			 pSum = n; 
-		 } else {
-			 if (n > maxN) maxN = n;
-			 if (n < menN) menN = n;
-			 sum += n;
-			 pSum = sum / (i+1);
-		 }
-		i++;
-	 }
+	while(true) {
+		int n = leer.nextInt();
+		if (n == -1) {
+			Collections.sort(listNum);
+			break;
+		}
+		listNum.add(n);
+
+		sum += n;
+	}
+
+	if (!listNum.isEmpty()) {
+		psum = sum / listNum.size();
 	 
-	 System.out.println("El mayor: " + maxN + "\nEl menor: " + menN + "\nLa suma: " + sum + "\nEl promedio de la suma: " + pSum);
+	 System.out.println("El mayor: " + listNum.get(listNum.size() - 1) + "\nEl menor: " + listNum.get(0) + "\nLa suma: " + sum + "\nEl promedio de la suma: " + psum);
+	} else {
+		System.out.println("No has ingresado ningun numero :(");
+	}
 	 
  }
  

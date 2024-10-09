@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "tateti",
+            "request": "launch",
+            "mainClass": "tateti",
+            "projectName": "Cole_5_2_b4fc6be7"
+        },
+        {
+            "type": "java",
+            "name": "project",
+            "request": "launch",
+            "mainClass": "project",
+            "projectName": "Cole_5_2_b4fc6be7"
+        },
+        {
+            "type": "java",
             "name": "inicio",
             "request": "launch",
             "mainClass": "inicio",

@@ -2,14 +2,16 @@ import java.util.*;
 
 
 
-public class inicio {
-	
+public class inicio { // clase del juego
+	 // variables que vamos a usar a lo largo del juego
 	static final int[] jugadas_validas = {0,1,2};
 	static final int[][] comparacion = {{0,1,2}, {1,2,0}};
 	
+	Scanner input = new Scanner(System.in);
+
 	public int usuario = 0, cpu = 0;
 	
-	public static boolean is_in(int n, int[] array) {
+	private static boolean is_in(int n, int[] array) { // esta funcion nos facilita para saber si un numero se encuentra en una array
 		for (int i : array) {
 			if (n == i) return true;
 		}
@@ -18,18 +20,16 @@ public class inicio {
 	
 	public static void main(String[] args) throws InterruptedException{ 
 		inicio juego = new inicio();
-		juego.pantallaInicio();
-	}
-
-	public static void clearConsole() {
-		for(int i = 0; i < 50; i++) System.out.println();
+		
+		juego.pantallaInicio();// llamo a la funcion de pantalla inicio la cual da comienzo a todo el juego
 	}
 	
+
+	
 	private void pantallaInicio() throws InterruptedException{
-		Scanner input = new Scanner(System.in);
 		
 		while (true) {
-			clearConsole();
+			System.out.print("\033[H\033[2J");
 			System.out.println("Bienvenido al juego de piedra, papel o tijera, en que dificultad quiere jugar?"
 					+ "\n1-Facil(el mejor de 3)"
 					+ "\n2-Medio(el mejor de 5)"
@@ -53,18 +53,15 @@ public class inicio {
 				break;
 			}
 
-			Thread.sleep(1000);
-
 			if (cpu > usuario) System.out.println("El ganador final es la computadora");
 			else 			   System.out.println("El ganador final es el jugador");
-
 			System.out.println("Muchas gracias por jugar con nosotros :)");
 
-				
+			Thread.sleep(3500);
 		}
 	}
 	
-	public static void facil(int partidas) {
+	public void facil(int partidas) { // la dificultad en la que la cpu va a elegir su jugada
 		inicio juego = new inicio();
 		int i = 0;
 		while (i < partidas) {
@@ -76,7 +73,7 @@ public class inicio {
 		}
 	}
 
-	public static void medio(int partidas) {
+	public void medio(int partidas) { // la dificultad en la que la cpu va a elegir su jugada
 		inicio juego = new inicio();
 		ArrayList <Integer> jugadas_user = new ArrayList<Integer>();
 		jugadas_user.add(0); jugadas_user.add(1); jugadas_user.add(2);
@@ -91,7 +88,7 @@ public class inicio {
 		}
 	}
 
-	public static void dificil(int partidas) {
+	public void dificil(int partidas) { 
 		inicio juego = new inicio();
 		ArrayList <Integer> jugadas_user = new ArrayList<Integer>();
 		jugadas_user.add(0); jugadas_user.add(1); jugadas_user.add(2);
@@ -106,9 +103,8 @@ public class inicio {
 		}
 	}
 	
-	public static int game(int jugador) {
+	public int game(int jugador) {
 		if (jugador == 0 ) {
-			Scanner input = new Scanner(System.in);
 			System.out.println("Ingrese cual va a ser su jugada:\n1-Piedra\n2-Papel\n3-Tijera");
 
 			while (true) {

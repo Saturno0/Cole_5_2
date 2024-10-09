@@ -46,5 +46,6 @@
         "streambuf": "cpp",
         "typeinfo": "cpp"
     },
-    "C_Cpp.errorSquiggles": "disabled"
+    "C_Cpp.errorSquiggles": "disabled",
+    "java.debug.settings.onBuildFailureProceed": true
 }
