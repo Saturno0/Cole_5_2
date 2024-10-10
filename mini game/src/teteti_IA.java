@@ -1,3 +1,5 @@
+package tateti_IA;
+
 import java.util.*;
 
 class tateti_IA { //clase que es el juego en sí
@@ -10,18 +12,17 @@ class tateti_IA { //clase que es el juego en sí
 class IA {
     String jugada_Cpu, jugada_User;
 
-    public static String Iniciar_Jugadas(int n) {
-        IA ia = new IA();
+    public String Iniciar_Jugadas(int n) {
 
         if (n % 2 != 0) {
-            ia.jugada_Cpu = "X";
-            ia.jugada_User = "O";
+            this.jugada_Cpu = "X";
+            this.jugada_User = "O";
         } else {
-            ia.jugada_Cpu = "O";
-            ia.jugada_User = "X";
+            this.jugada_Cpu = "O";
+            this.jugada_User = "X";
         }
 
-        return ia.jugada_Cpu;
+        return this.jugada_Cpu;
     }
 
     public static String[][] jugar(String[][] tablero, String jugada_Cpu, String jugada_User) {
@@ -130,6 +131,7 @@ class juego {
 
     public void game(Scanner input) {
         Random rand = new Random();
+        IA IA = new IA();
         int r = rand.nextInt(2);
         jugada_Cpu = IA.Iniciar_Jugadas(r);
         jugada_User = (jugada_Cpu.equals("X")) ? "O" : "X";
@@ -249,6 +251,7 @@ class paint { // subclase que conforma a juego
             for (int j = 0; j < 3; j++) {
                 System.out.print(" " + (tablero[i][j].equals(" ") ? (i * 3 + j + 1) : tablero[i][j]) + " |");
             }
+            System.out.println();
         }
         System.out.println("\n-------------");
     }
