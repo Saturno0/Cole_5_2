@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "tateti_IA",
+            "request": "launch",
+            "mainClass": "tateti_IA",
+            "projectName": "Cole_5_2_b4fc6be7"
+        },
+        {
+            "type": "java",
             "name": "tateti",
             "request": "launch",
             "mainClass": "tateti",
