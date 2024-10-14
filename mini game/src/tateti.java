@@ -147,7 +147,7 @@ class paint { // subclase que conforma a juego
                         + "\nElija que quiere hacer:"
                         + "\n\t1- Jugar"
                         + "\n\t2- Reglas"
-                        + "\n\t3- Salir :()");
+                        + "\n\t3- Salir :(");
         int option = input.nextInt();
 
         return option;

@@ -145,7 +145,6 @@ private:
     }
 
     void iniciar_resto() {
-        int rsize = sqrt(tamano);
         vector<int> nums = nums_validos;
         fill_resto(0, 3, nums);
     }

@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "IA_tateti",
+            "request": "launch",
+            "mainClass": "IA_tateti",
+            "projectName": "Cole_5_2_b4fc6be7"
+        },
+        {
+            "type": "java",
+            "name": "calculator",
+            "request": "launch",
+            "mainClass": "calculator",
+            "projectName": "Cole_5_2_b4fc6be7"
+        },
+        {
+            "type": "java",
             "name": "tateti_IA",
             "request": "launch",
             "mainClass": "tateti_IA",
