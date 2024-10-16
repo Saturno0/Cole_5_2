@@ -1,5 +1,4 @@
 import java.util.*;
-import java.math.*;
 
 public class sudoku {
     public static void main(String[] args) {
@@ -8,15 +7,81 @@ public class sudoku {
     }
 }
 
-public class juego_sudoku {
-    int t_size = 9;
+class juego_sudoku {
+    final int t_size = 9;
     int[][] tablero = new int[3][3];
-    int[] nums_valid = {1,2,3,4,5,6,7,8,9};
+    final int[] nums_valid = {1,2,3,4,5,6,7,8,9};
+    Scanner input = new Scanner(System.in);
+    int[] posicion_u = new int[] {0,0};
+    char dir;
+    int num, vidas = 3;
+    Paint paint = new Paint();
+
 
     public void inicio (){
-
+        Dibujar Dbj = new Dibujar();
         int dificultad = Dbj.pedirDifucultad();
-        iniciarTablero(dificultad);
+        int[][] c_tablero = iniciarTablero(dificultad);
+
+        while(!gameOver(c_tablero)) {
+            Paint.paint_t(tablero, t_size, vidas);
+            Jugada(c_tablero);
+        }
+    }
+
+    public boolean chekWin(int[][] c_tablero) {
+        if (vidas == 0) {
+            System.out.println("Que lastima has perdido :(");
+            return true;
+        }else if(tablero == c_tablero) {
+            System.out.println("Felicidades has ganado!!");
+            return true;
+        }
+        return false;
+    }
+
+    public boolean gameOver(int[][] c_tablero) {
+        if(chekWin(c_tablero)) return true;
+        return false;
+    }
+
+    public boolean is_in(char c, char[] arr) {
+
+        for(char a : arr) {
+            if(c == a) return true;
+        }
+        return false;
+    }
+
+    public void chek_place(int[][] c_tablero) { // chequeo la posicion en la que se encuentra el jugador y si es una casilla valida para ingresar el num
+        if(tablero[posicion_u[0]][posicion_u[1]] == 0){
+            if(c_tablero[posicion_u[0]][posicion_u[1]] == num ) tablero[posicion_u[0]][posicion_u[1]] = num; // compruebo que el numero ingresado sea el correcto
+            else                                                Paint.err(2);
+
+        } else Paint.err(1);
+    }
+
+    public void Move() {
+        if (dir == 'w' && posicion_u[0] > 0) posicion_u[0]--;
+        else if (dir == 's' && posicion_u[0] < t_size - 1) posicion_u[0]++;
+        else if (dir == 'a' && posicion_u[1] > 0) posicion_u[1]--;
+        else if (dir == 'd' && posicion_u[1] < t_size - 1) posicion_u[1]++;
+    }
+
+    public void Jugada(int[][] c_tablero) {
+        char[] movs_valid = {'w','a','s','d'};
+        char[] num_valid = {'1','2','3','4','5','6','7','8','9'};
+        char c = input.next().toLowerCase().charAt(0);
+        if(is_in(c, movs_valid)) {
+            dir = c;
+            Move();
+        } else if (is_in(c, num_valid)) {
+            String n = String. valueOf(c);
+            num = Integer.parseInt(n);
+            chek_place(c_tablero);
+        } else if(!is_in(c, num_valid)) {
+            vidas--;
+        } else Paint.err(0);
     }
 
     public boolean check_column(int columna, int num) {
@@ -176,10 +241,82 @@ public class juego_sudoku {
 
         while(!check_espacios(t_size)) {
             tablero = c_tablero;
-            vaciar_espacios(dificulty);
+            vaciar_espacios(difuculty);
         }
-        
+    
         return c_tablero;
     }
 
+}
+
+class Dibujar {
+    Scanner input = new Scanner(System.in);
+    public int pedirDifucultad(){
+        int dificulty;
+        while (true) {
+            System.out.println("Ingrese que tipo de dificultad quiere jugar:\n" +
+                        "\t1-Facil\n" + "\t2-Medio" + "\t3-Dificil");
+        
+            int option = input.nextInt();
+            switch (option) {
+                case 1:
+                    dificulty = 25;
+                    break;
+                case 2:
+                    dificulty = 30;
+                    break;
+                case 3:
+                    dificulty = 40;
+                    break;
+            
+                default:
+                    System.out.println("Ingrese una opcion valida por favor");
+                    continue;
+            }
+            break;
+        }
+
+        return dificulty;
+    }
+
+}
+
+class Paint {
+    public static void paint_t(int[][] tablero, int tamano, int vidas) {
+        APB(vidas);
+
+        System.out.println("  --- --- ---  --- --- ---  --- --- --- \n" + "  --- --- ---  --- --- ---  --- --- --- ");
+        for(int[] fila : tablero) {
+            System.out.print("||");
+            for(int n : fila) {
+                if(n == 0) System.out.println("   |");
+                else       System.out.println(" " + n + " |");
+            }
+            System.out.println("||");
+            System.out.println("  --- --- ---  --- --- ---  --- --- --- ");
+        }
+    }
+
+    public static void APB(int vidas) {
+        System.out.println("------------------------------------------------------------");
+        System.out.println("| APB | w: arriba - a: izquierda - s: abajo - d: derecha   |");
+        System.out.println("------------------------------------------------------------");
+        System.out.println("| APB | Parese sobre la casilla para ingresar el numero    |");
+        System.out.println("------------------------------------------------------------");
+        System.out.println("Vidas: " + vidas);
+    }
+
+    public static void err(int n) {
+        switch (n) {
+            case 0:
+                System.out.println("Jugada no valida");
+                break;
+            
+            case 1:
+                System.out.println("Espacio ya ocupado");
+        
+            default:
+                break;
+        }
+    }
 }

@@ -358,11 +358,11 @@ private:
     void APB(int vidas) {
         system("cls");
         set_color(verde); // Verde para "APB"
-        cout << "------------------------------------------------------------" << endl;
+        cout << "------------------------------------------------------------ " << endl;
         cout << "| APB | w: arriba - a: izquierda - s: abajo - d: derecha   |" << endl;
-        cout << "------------------------------------------------------------" << endl;
+        cout << "------------------------------------------------------------ " << endl;
         cout << "| APB | Parese sobre la casilla para ingresar el numero    |" << endl;
-        cout << "------------------------------------------------------------" << endl << endl;
+        cout << "------------------------------------------------------------ " << endl << endl;
         reset_color();
         set_color(f_verde);
         cout << "Vidas: " << vidas << endl;

@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "sudoku",
+            "request": "launch",
+            "mainClass": "sudoku",
+            "projectName": "Cole_5_2_b4fc6be7"
+        },
+        {
+            "type": "java",
             "name": "IA_tateti",
             "request": "launch",
             "mainClass": "IA_tateti",
