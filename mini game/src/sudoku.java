@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class sudoku {
+public class Sudoku {
     public static void main(String[] args) {
         juego_sudoku juego = new juego_sudoku();
         juego.inicio();
@@ -9,7 +9,7 @@ public class sudoku {
 
 class juego_sudoku {
     final int t_size = 9;
-    int[][] tablero = new int[3][3];
+    int[][] tablero = new int[9][9];
     final int[] nums_valid = {1,2,3,4,5,6,7,8,9};
     Scanner input = new Scanner(System.in);
     int[] posicion_u = new int[] {0,0};
@@ -20,7 +20,7 @@ class juego_sudoku {
 
     public void inicio (){
         Dibujar Dbj = new Dibujar();
-        int dificultad = Dbj.pedirDifucultad();
+        int dificultad = Dbj.pedirDificultad();
         int[][] c_tablero = iniciarTablero(dificultad);
 
         while(!gameOver(c_tablero)) {
@@ -33,7 +33,7 @@ class juego_sudoku {
         if (vidas == 0) {
             System.out.println("Que lastima has perdido :(");
             return true;
-        }else if(tablero == c_tablero) {
+        }else if(Arrays.deepEquals(tablero, c_tablero)) {
             System.out.println("Felicidades has ganado!!");
             return true;
         }
@@ -104,25 +104,25 @@ class juego_sudoku {
     }
 
     // compruebo que el numero no se encuentre en el recuadro ni en la fila y columna
-    public boolean check_box(int fila, int columna, int num) {
+    public boolean check_box(int fila, int columna, int n) {
         int comienzo_fila = fila - fila % 3;
         int comienzo_columna = columna - columna % 3;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (tablero[i + comienzo_fila][j + comienzo_columna] == num) {
+                if (tablero[i + comienzo_fila][j + comienzo_columna] == n) {
                     return false;
                 }
             }
         }
-        if (check_fila(fila, num) && check_column(columna, num)) return true;
+        if (check_fila(fila, n) && check_column(columna, n)) return true;
         else return false;
     }
 
     public void fill_d(int fila, int columna, int[] nums) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                for (int num : nums) {
-                    if (check_box(fila, columna, num)) tablero[i + fila][j + columna] = num;
+                for (int n : nums) {
+                    if (check_box(fila, columna, n)) tablero[i + fila][j + columna] = n;
                 }
             }
         }
@@ -179,7 +179,7 @@ class juego_sudoku {
         List<Integer> nums = new ArrayList<>();
 
 
-        for(int num : nums_valid) nums.add(num);
+        for(int n : nums_valid) nums.add(n);
         int[] c_nums;
 
         for (int i = 0; i < t_size; i++) {
@@ -223,8 +223,9 @@ class juego_sudoku {
         int i = 0;
 
         while (i < espacios) {
-            int fila = new Random(9).nextInt();
-            int columna = new Random(9).nextInt();
+            Random rand = new Random();
+            int fila = rand.nextInt(9);
+            int columna = rand.nextInt(9);
 
             if (tablero[fila][columna] == 0) continue;
 
@@ -239,7 +240,7 @@ class juego_sudoku {
 
         int[][] c_tablero = tablero;
 
-        while(!check_espacios(t_size)) {
+        while(!check_espacios(difuculty)) {
             tablero = c_tablero;
             vaciar_espacios(difuculty);
         }
@@ -251,7 +252,7 @@ class juego_sudoku {
 
 class Dibujar {
     Scanner input = new Scanner(System.in);
-    public int pedirDifucultad(){
+    public int pedirDificultad(){
         int dificulty;
         while (true) {
             System.out.println("Ingrese que tipo de dificultad quiere jugar:\n" +
@@ -289,8 +290,8 @@ class Paint {
         for(int[] fila : tablero) {
             System.out.print("||");
             for(int n : fila) {
-                if(n == 0) System.out.println("   |");
-                else       System.out.println(" " + n + " |");
+                if(n == 0) System.out.print("   |");
+                else       System.out.print(" " + n + " |");
             }
             System.out.println("||");
             System.out.println("  --- --- ---  --- --- ---  --- --- --- ");
