@@ -1,9 +1,104 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36" version="26.2.1">
   <diagram name="Página-1" id="tZbnme_al4MWlqu-ipMB">
-    <mxGraphModel>
+    <mxGraphModel dx="832" dy="418" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="UeEeDahIPyh72B3rgrp_-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="UeEeDahIPyh72B3rgrp_-1" target="UeEeDahIPyh72B3rgrp_-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UeEeDahIPyh72B3rgrp_-1" value="I" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="385" width="56" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="UeEeDahIPyh72B3rgrp_-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="UeEeDahIPyh72B3rgrp_-2" target="UeEeDahIPyh72B3rgrp_-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UeEeDahIPyh72B3rgrp_-2" value="Nombre, Apellido, Casado, Horas_T, Horas_E, Hijos, Empleados, Sueldo_H = 15000" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="356" y="50" width="114" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="UeEeDahIPyh72B3rgrp_-3" value="1&amp;gt;0" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="89" y="151" width="650" height="850" as="geometry" />
+        </mxCell>
+        <mxCell id="UeEeDahIPyh72B3rgrp_-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="UeEeDahIPyh72B3rgrp_-3" source="UeEeDahIPyh72B3rgrp_-4" target="UeEeDahIPyh72B3rgrp_-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UeEeDahIPyh72B3rgrp_-4" value="Ingresar Nombre, Apellido, Casado, Hijos, Horas_T, Horas_E" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" vertex="1" parent="UeEeDahIPyh72B3rgrp_-3">
+          <mxGeometry x="124.25" y="40" width="401.5" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="UeEeDahIPyh72B3rgrp_-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="UeEeDahIPyh72B3rgrp_-3" source="UeEeDahIPyh72B3rgrp_-6" target="UeEeDahIPyh72B3rgrp_-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UeEeDahIPyh72B3rgrp_-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="UeEeDahIPyh72B3rgrp_-3" source="UeEeDahIPyh72B3rgrp_-6" target="UeEeDahIPyh72B3rgrp_-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UeEeDahIPyh72B3rgrp_-6" value="Horas_E &amp;gt; 40" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="UeEeDahIPyh72B3rgrp_-3">
+          <mxGeometry x="275.25" y="106" width="99.5" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="UeEeDahIPyh72B3rgrp_-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="UeEeDahIPyh72B3rgrp_-3" source="UeEeDahIPyh72B3rgrp_-7" target="UeEeDahIPyh72B3rgrp_-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UeEeDahIPyh72B3rgrp_-7" value="Sueldo_B = (Horas_T * 15000)+(Horas_E*(15000*1.5))" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="UeEeDahIPyh72B3rgrp_-3">
+          <mxGeometry x="230" y="179" width="190" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="UeEeDahIPyh72B3rgrp_-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="UeEeDahIPyh72B3rgrp_-3" source="UeEeDahIPyh72B3rgrp_-8" target="UeEeDahIPyh72B3rgrp_-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UeEeDahIPyh72B3rgrp_-8" value="Horas_E = 40" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="UeEeDahIPyh72B3rgrp_-3">
+          <mxGeometry x="460" y="111" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="UeEeDahIPyh72B3rgrp_-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="UeEeDahIPyh72B3rgrp_-3" source="UeEeDahIPyh72B3rgrp_-13" target="UeEeDahIPyh72B3rgrp_-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UeEeDahIPyh72B3rgrp_-13" value="Jubilacion = 0.03 * Sueldo__B&lt;div&gt;Obra_Social = 0.06 * Sueldo_B&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="UeEeDahIPyh72B3rgrp_-3">
+          <mxGeometry x="230" y="246" width="190" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="UeEeDahIPyh72B3rgrp_-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="UeEeDahIPyh72B3rgrp_-3" source="UeEeDahIPyh72B3rgrp_-15" target="UeEeDahIPyh72B3rgrp_-17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UeEeDahIPyh72B3rgrp_-20" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="UeEeDahIPyh72B3rgrp_-3" source="UeEeDahIPyh72B3rgrp_-15" target="UeEeDahIPyh72B3rgrp_-19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UeEeDahIPyh72B3rgrp_-15" value="Casado &amp;amp;&amp;amp; Hijos?" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="UeEeDahIPyh72B3rgrp_-3">
+          <mxGeometry x="262.63" y="310" width="124.75" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="UeEeDahIPyh72B3rgrp_-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="UeEeDahIPyh72B3rgrp_-3" source="UeEeDahIPyh72B3rgrp_-17" target="UeEeDahIPyh72B3rgrp_-23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UeEeDahIPyh72B3rgrp_-17" value="Casado?" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="UeEeDahIPyh72B3rgrp_-3">
+          <mxGeometry x="262.63" y="380" width="124.75" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="UeEeDahIPyh72B3rgrp_-27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="UeEeDahIPyh72B3rgrp_-3" source="UeEeDahIPyh72B3rgrp_-19" target="UeEeDahIPyh72B3rgrp_-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UeEeDahIPyh72B3rgrp_-19" value="Impuesto_G = 0.09 * Sueldo_B" style="whiteSpace=wrap;html=1;" vertex="1" parent="UeEeDahIPyh72B3rgrp_-3">
+          <mxGeometry x="420.75" y="317.5" width="170.25" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="UeEeDahIPyh72B3rgrp_-21" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="UeEeDahIPyh72B3rgrp_-3" target="UeEeDahIPyh72B3rgrp_-22" source="UeEeDahIPyh72B3rgrp_-17">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="383.5" y="405" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UeEeDahIPyh72B3rgrp_-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="UeEeDahIPyh72B3rgrp_-3" source="UeEeDahIPyh72B3rgrp_-22" target="UeEeDahIPyh72B3rgrp_-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UeEeDahIPyh72B3rgrp_-22" value="Impuesto_G = 0.27 * Sueldo_B" style="whiteSpace=wrap;html=1;" vertex="1" parent="UeEeDahIPyh72B3rgrp_-3">
+          <mxGeometry x="421.25" y="387.5" width="170.25" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="UeEeDahIPyh72B3rgrp_-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="UeEeDahIPyh72B3rgrp_-3" source="UeEeDahIPyh72B3rgrp_-23" target="UeEeDahIPyh72B3rgrp_-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UeEeDahIPyh72B3rgrp_-23" value="Impuesto_G = 0.36 * Sueldo_B" style="whiteSpace=wrap;html=1;" vertex="1" parent="UeEeDahIPyh72B3rgrp_-3">
+          <mxGeometry x="239.88" y="450" width="170.25" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="UeEeDahIPyh72B3rgrp_-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="UeEeDahIPyh72B3rgrp_-3" source="UeEeDahIPyh72B3rgrp_-25" target="UeEeDahIPyh72B3rgrp_-29">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UeEeDahIPyh72B3rgrp_-25" value="Sueldo_Final = Sueldo_B - (Jubilacion + Obra_Social + Impuesto_G)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="UeEeDahIPyh72B3rgrp_-3">
+          <mxGeometry x="237.51" y="520" width="174.99" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="UeEeDahIPyh72B3rgrp_-29" value="&lt;ul style=&quot;-webkit-tap-highlight-color: transparent; list-style-position: initial; list-style-image: initial; margin: 1em 0px; padding: 0px 0px 0px 40px; color: rgb(60, 64, 67); font-family: Roboto, Arial, sans-serif; font-size: 14px; letter-spacing: 0.2px; text-align: start;&quot;&gt;&lt;li style=&quot;-webkit-tap-highlight-color: transparent;&quot;&gt;Nombre y Apellido.&lt;/li&gt;&lt;li style=&quot;-webkit-tap-highlight-color: transparent;&quot;&gt;Estado_C&lt;/li&gt;&lt;li style=&quot;-webkit-tap-highlight-color: transparent;&quot;&gt;Horas_t + Horas_E.&lt;/li&gt;&lt;li style=&quot;-webkit-tap-highlight-color: transparent;&quot;&gt;Sueldo_B.&lt;/li&gt;&lt;li style=&quot;-webkit-tap-highlight-color: transparent;&quot;&gt;Jubilacion.&lt;/li&gt;&lt;li style=&quot;-webkit-tap-highlight-color: transparent;&quot;&gt;Obra_Social.&lt;/li&gt;&lt;li style=&quot;-webkit-tap-highlight-color: transparent;&quot;&gt;Impuesto_G.&lt;/li&gt;&lt;li style=&quot;-webkit-tap-highlight-color: transparent;&quot;&gt;Sueldo_Final.&lt;/li&gt;&lt;/ul&gt;" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;" vertex="1" parent="UeEeDahIPyh72B3rgrp_-3">
+          <mxGeometry x="235.51" y="610" width="179" height="230" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
